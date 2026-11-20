@@ -1,4 +1,6 @@
-# fcd-mvp0
+# fcd-demo
+
+De way of working van de showcase Demo (eerste experiment: mvp0).
 
 Way of working van de showcase Demo, voor Claude Code. De eerste, kleinste way of working van Full Circle Delivery (FCD) die de hele cirkel rond gaat: intentie, proces, product, leren. AI als versneller.
 Hoort bij een intent, zoals `sk-1dp-mvp0.md` in [sk-demo](https://github.com/fcd-labs/sk-demo).
@@ -41,7 +43,7 @@ Bij elk kader geldt comply or explain: wijk je af, leg dan uit waarom. De produc
 | GitOps: alles staat in git, en de pipeline rolt uit | | J | |
 | CI/CD – the only way to production, ook bij spoed. | | N | |
 | Een bash-script is de enige weg om te bouwen en uit te rollen. | Continuous Delivery | ? | |
-| ~~GitHub Actions roept hetzelfde bash-script aan.~~ | Continuous Delivery | ? | Vervallen: de Pipeline (fcd-demo-pipeline) draait het bash-script lokaal (besluit Johannes, 20 november 2026) |
+| ~~GitHub Actions roept hetzelfde bash-script aan.~~ | Continuous Delivery | ? | Vervallen: de Pipeline (fcd-pipeline) draait het bash-script lokaal (besluit Johannes, 20 november 2026) |
 | Test-driven development (TDD). | Testen | ? | |
 | Unittests. | Testen | ? | |
 | Integratietests binnen het deelproduct. | Testen | ? | |
@@ -51,40 +53,28 @@ Bij elk kader geldt comply or explain: wijk je af, leg dan uit waarom. De produc
 | Het deelproduct heeft een eigen versie. | | ? | |
 | Stubs (zoals voor andere deelproducten) zijn losse containers, niet onderdeel van het deelproduct. | | ? | |
 
-## CI-stappen en quality gates
+## CI-stappen, quality gates en drempels
 
-Besluit van Johannes (20 november 2026): de pipeline bestaat uit stappen, met quality gates. De stappen zijn niet compleet; wat ontbreekt staat als issue op de backlog van fcd-demo.
-Eén bash-script (`fcd` in fcd-demo-pipeline) is de enige weg. Lokaal vóór het mergen draait hetzelfde script (pre-push), de Pipeline draait het na de merge op `main`.
+Besluit van Johannes (20 november 2026): de pipeline bestaat uit stappen, met quality gates. Besluit van 20 november (later): Pipeline en Dashboard zijn deelproducten van FCD, voor alle showcases; wat per showcase verschilt staat in de configuratie.
 
-| # | Stap | Uitwerking (tool, licentie) |
-|---|---|---|
-| 1 | Statische controle | ktlint (MIT), ESLint en Prettier (MIT), ShellCheck (GPL-3.0, alleen als tool) |
-| 2 | Unittests | Maven Surefire (Apache-2.0), Vitest (MIT) |
-| 3 | Contracttest | Redocly CLI (MIT): lint van de OpenAPI-bestanden. oasdiff (Apache-2.0): geen breaking change tegenover de vorige release |
-| 4 | Bouwen | `docker compose build`, versies uit `versions.env` |
-| 5 | Integratietests | Deelproduct met stubs in een aparte omgeving; Schemathesis (MIT) tegen het OpenAPI-contract |
-| 6 | Security en versheid | Trivy (Apache-2.0): kwetsbaarheden, geheimen, configuratie. Versheid: versions-maven-plugin (Apache-2.0), `npm outdated` |
-| 7 | SBOM en licenties | Syft (Apache-2.0): CycloneDX per image. Trivy: licenties tegen de toegestane lijst |
-| 8 | Deployen | `docker compose up` van het hele deelproduct |
-| 9 | End-to-end tests | Playwright (Apache-2.0) |
-| 10 | Releasen | Git-tag `v<versie>`, GitHub Release met de tekst uit `CHANGELOG.md` |
+**De configuratie van deze showcase staat in [fcd/fcd-demo.fcd.yaml](fcd/fcd-demo.fcd.yaml)** (één bron, in het FCD-model):
+- `Pipeline`: vastgelegde versie van de Pipeline, trigger (alleen `main`), uitrollen (docker-compose, het hele deelproduct), releasen (tag, GitHub Release, changelog) en de stappen in volgorde;
+- `Step`: de tien stappen;
+- `QualityGate`: code-, bouw-, security-, uitrol- en mensgate, met hun drempels;
+- `Explanation`: goedgekeurde afwijkingen op een gate (gate, regel, reden, goedkeurder, einddatum);
+- `Dashboard`: vastgelegde versie van het Dashboard;
+- `Environment`: poorten en projectnamen van deze showcase.
 
-| Gate | Na stap | Door als |
-|---|---|---|
-| Codegate | 1–3 | 0 lint-fouten; alle unittests groen, geen overgeslagen test zonder reden; OpenAPI zonder lint-fouten; geen breaking change zonder nieuwe major-versie; versies consistent (een hogere containerversie betekent een hogere versie van het deelproduct) |
-| Bouwgate | 4–5 | Alle images gebouwd met de juiste tag; alle integratietests groen |
-| Securitygate | 6–7 | 0 kritieke en 0 hoge kwetsbaarheden waarvoor een fix bestaat; 0 geheimen; 0 hoge misconfiguraties; geen library een major-versie achter (minor of patch = waarschuwing); een SBOM per image; elke licentie toegestaan (MIT, Apache-2.0, BSD-2-Clause, BSD-3-Clause, ISC, MPL-2.0, EPL-1.0, EPL-2.0, LGPL; GPL alleen in OS-pakketten van het basisimage); onbekende licentie = dicht |
-| Uitrolgate | 8–9 | Alle containers draaien binnen 60 seconden; alle end-to-end tests groen |
-| Mensgate | vóór 10 | Johannes merget naar `main` met een hogere versie van het deelproduct. Kader: een mens keurt goed |
+Een drempel of stap wijzigen is een pull request op deze repository, door Johannes gemerged. De Pipeline volgt de nieuwe configuratie bij de volgende run, zonder codewijziging.
 
 - Valt een gate dicht, dan stopt de pipeline: niet uitrollen, niet releasen.
 - Een noodpatch gaat door dezelfde stappen en gates. Kader: CI/CD – the only way to production, ook bij spoed (explain niet toegestaan).
-- Een afwijking op een drempel staat in `explains.yaml` van de repository: gate, regel, reden, goedkeurder, einddatum. Na de einddatum vervalt hij.
 - Testdekking (coverage) heeft voor de demo geen drempel.
+- Wat niet als configuratie kan, staat als issue in `fcd`.
 
 ## Goedgekeurde afwijkingen
 
-Besluit: alles is open source (Johannes, 20 november 2026). Goedgekeurde afwijkingen (Johannes, 20 november 2026):
+Besluit: alles is open source (Johannes, 20 november 2026). Goedgekeurde afwijkingen op de way of working (Johannes, 20 november 2026); afwijkingen op een quality gate staan in de configuratie (`Explanation`):
 
 | Afwijking | Reden | Exitstrategie |
 |---|---|---|

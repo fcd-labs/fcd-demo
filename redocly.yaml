@@ -1,7 +1,0 @@
-# Lint rules for the contracts. Base: the recommended rules of Redocly.
-extends:
-  - recommended
-rules:
-  # The Dashboard listens only on 127.0.0.1 and has no user accounts in mvp0 (explain "geen inloggen",
-  # not yet approved: issue #4). Until then this rule is off.
-  security-defined: off
