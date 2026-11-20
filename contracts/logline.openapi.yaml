@@ -1,0 +1,41 @@
+openapi: 3.1.0
+info:
+  title: Logline contract (fcd-demo Dashboard)
+  version: 0.1.0
+  license:
+    name: MIT
+    identifier: MIT
+  description: |
+    Contract between the pipelines of sk-demo and fcd-demo (and the key-result measurement of
+    sk-demo) on one side, and the Dashboard on the other. The Dashboard receives log lines.
+    A log line is a CDEvent; the FCD fields are in customData. See logline.md.
+servers:
+  - url: http://127.0.0.1:8070
+    description: The Dashboard on the local machine
+tags:
+  - name: events
+    description: Log lines in
+paths:
+  /api/v1/events:
+    post:
+      tags: [events]
+      operationId: postEvent
+      summary: Receive one log line
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: './logline.schema.json'
+      responses:
+        '202':
+          description: Received. Sending the same context.id again has the same result (idempotent).
+        '400':
+          description: The log line does not conform to the contract.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                properties:
+                  title: { type: string }
+                  detail: { type: string }
