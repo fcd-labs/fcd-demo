@@ -1,6 +1,6 @@
 # Draaiboek demo showcase Demo
 
-Zes onderdelen, samen ongeveer 25 minuten. Alles draait lokaal op de Mac. Pipeline en Dashboard zijn van FCD; deze showcase gebruikt de versies die in [fcd/fcd-demo.fcd.yaml](fcd/fcd-demo.fcd.yaml) zijn vastgelegd. Start vanuit `fcd-demo`: `../fcd-pipeline/fcd up`. Het Dashboard staat open op http://127.0.0.1:8070.
+Zeven onderdelen, samen ongeveer 28 minuten. Alles draait lokaal op de Mac. Pipeline en Dashboard zijn van FCD; deze showcase gebruikt de versies die in [fcd/fcd-demo.fcd.yaml](fcd/fcd-demo.fcd.yaml) zijn vastgelegd. Start vanuit `fcd-demo`: `../fcd-pipeline/fcd up`. Het Dashboard staat open op http://127.0.0.1:8070.
 
 ## Vooraf (10 minuten, vóór de demo)
 
@@ -62,7 +62,16 @@ Laat zien: wat per showcase verschilt staat in de configuratie; Pipeline en Dash
 4. Dashboard: de securitygate van Bestellen meldt alleen nog de backend-library (twee major-versies achter, afwijking EXP-002); de frontend (één major achter) valt binnen de nieuwe drempel en heeft EXP-001 niet meer nodig.
 5. Terugdraaien: dezelfde wijziging terug, of laten staan als besluit.
 
-## 6. Het statusrapport (± 2 min)
+## 6. Een brekende contractwijziging (± 3 min)
+
+Laat zien: contract first. Een wijziging die het contract breekt, laat de codegate dichtvallen; er wordt niet uitgerold.
+
+1. In `sk-demo`: `git switch demo/3-brekend-contract`. De bestelling krijgt een verplicht veld `guestName` (contract 0.2.0).
+2. `../fcd-pipeline/fcd ci .` (stap 1–3 zijn genoeg: `--until 3`, ± 1 min).
+3. De codegate valt dicht: "brekende wijziging (oasdiff)" en "niet backward compatibel volgens het API-register". Het Dashboard toont de reden. Het API-register (http://127.0.0.1:8071) toont de versies die er wel in staan.
+4. `git switch main`. Niets gepusht, niets uitgerold.
+
+## 7. Het statusrapport (± 2 min)
 
 1. Dashboard, tab **Statusrapport**: datum, showcase, experiment, versies, pipelines en gates, KPI's, testresultaten, key result.
 2. "Bewaren als Markdown" of "Afdrukken of bewaren als PDF".
