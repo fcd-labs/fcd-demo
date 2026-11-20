@@ -43,7 +43,7 @@ metadata:
   name: pipeline
   title: Pipeline
 spec:
-  uses: {subProduct: fcd-pipeline, version: 0.5.0}
+  uses: {subProduct: fcd-pipeline, version: 0.5.1}
   builds: true
   deploys: true
   calledBy: Pipeline-agent
