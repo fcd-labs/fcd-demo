@@ -1,0 +1,78 @@
+# Jouw FCD-model: ShowKitchen, showcase Demo (productkant)
+# Bron: showkitchen.md, sk-1dp-mvp0.md (nu sk-demo), fcd-mvp0.md, fcd-objecten.md
+# Objecten en relaties volgen fcd-objecten.md. De veldnamen zijn een voorstel.
+# Wat niet in de bronnen staat, staat hier niet. De plaat toont dat als gat.
+# Kopie uit fcd/fcd/sk-demo.fcd.yaml (20 november 2026), aangevuld met de repository van het deelproduct.
+---
+apiVersion: fcd/v0
+kind: Product
+metadata:
+  name: showkitchen
+  title: ShowKitchen
+spec:
+  description: Software as a service voor restaurants
+---
+apiVersion: fcd/v0
+kind: Group
+metadata:
+  name: claude-code
+  title: Claude Code met agents
+spec:
+  type: squad
+  composition: ai-agents-only
+  owner: product owner
+---
+apiVersion: fcd/v0
+kind: SubProduct
+metadata:
+  name: bestellen
+  title: Bestellen
+spec:
+  product: showkitchen
+  owner: claude-code
+  repository: sk-demo
+---
+apiVersion: fcd/v0
+kind: Container
+metadata:
+  name: bestellen-frontend
+  title: frontend
+spec:
+  subProduct: bestellen
+  technology: Angular (micro-frontend)
+---
+apiVersion: fcd/v0
+kind: Container
+metadata:
+  name: bestellen-backend
+  title: backend
+spec:
+  subProduct: bestellen
+  technology: Kotlin
+---
+apiVersion: fcd/v0
+kind: Container
+metadata:
+  name: stub-keuken
+  title: keuken
+spec:
+  product: showkitchen
+  stub: true
+---
+apiVersion: fcd/v0
+kind: Container
+metadata:
+  name: stub-bar
+  title: bar
+spec:
+  product: showkitchen
+  stub: true
+---
+apiVersion: fcd/v0
+kind: Container
+metadata:
+  name: stub-kassa
+  title: kassa
+spec:
+  product: showkitchen
+  stub: true

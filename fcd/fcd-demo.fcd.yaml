@@ -1,0 +1,365 @@
+# Jouw FCD-model: FCD-Demo, de way of working ("fabriek") die ShowKitchen voortbrengt
+# Bron: fcd-mvp0.md, fcd-showcases.md, fcd-objecten.md
+# Kopie uit fcd/fcd/fcd-demo.fcd.yaml (20 november 2026), aangevuld met de configuratie van de showcase:
+# Pipeline (vastgelegde versie, trigger, uitrol, release, stappen), Step, QualityGate (drempels), Dashboard,
+# Environment (poorten) en goedgekeurde afwijkingen op een gate. Pipeline en Dashboard lezen dit bestand.
+# Objecten volgen fcd-objecten.md. De veldnamen zijn een voorstel.
+# Wat niet in de bronnen staat, staat hier niet. De plaat toont dat als gat.
+---
+apiVersion: fcd/v0
+kind: Factory
+metadata:
+  name: fcd-demo
+  title: FCD-Demo
+spec:
+  description: De eerste, kleinste way of working die de hele cirkel rond gaat. AI als versneller.
+  showcase: demo
+  experiment: mvp0
+  product: showkitchen
+  intentParts:
+    - Persona en userstory
+    - Waarom (objective)
+    - Meten (key result)
+    - Gedrag als scenario's
+  subProductDescriptionParts:
+    - Verantwoordelijkheid
+    - Gebruikers
+    - Interfaces
+    - Intents
+---
+apiVersion: fcd/v0
+kind: Group
+metadata:
+  name: claude-code
+  title: Claude Code met agents
+spec:
+  type: squad
+  composition: ai-agents-only
+  owner: product owner
+---
+apiVersion: fcd/v0
+kind: Pipeline
+metadata:
+  name: pipeline
+  title: Pipeline
+spec:
+  uses: {subProduct: fcd-pipeline, version: 0.4.0}
+  builds: true
+  deploys: true
+  calledBy: Pipeline-agent
+  trigger: merge-on-main
+  artifact: container
+  deployUnit: SubProduct
+  deployTarget: docker-compose
+  release: {tag: "v{version}", githubRelease: true, notesFrom: CHANGELOG.md}
+  steps: [static-check, unit-tests, contract-test, build, integration-tests, security-freshness, sbom-licenses, deploy, end-to-end-tests, release]
+---
+apiVersion: fcd/v0
+kind: Dashboard
+metadata: {name: dashboard, title: Dashboard}
+spec:
+  uses: {subProduct: fcd-dashboard, version: 0.3.0}
+---
+apiVersion: fcd/v0
+kind: Step
+metadata: {name: static-check, title: Statische controle}
+spec: {gate: code}
+---
+apiVersion: fcd/v0
+kind: Step
+metadata: {name: unit-tests, title: Unittests}
+spec: {gate: code, testType: unit}
+---
+apiVersion: fcd/v0
+kind: Step
+metadata: {name: contract-test, title: Contracttest}
+spec: {gate: code}
+---
+apiVersion: fcd/v0
+kind: Step
+metadata: {name: build, title: Bouwen}
+spec: {gate: build}
+---
+apiVersion: fcd/v0
+kind: Step
+metadata: {name: integration-tests, title: Integratietests}
+spec:
+  gate: build
+  testType: integration
+  contractChecks: [not_a_server_error, status_code_conformance, content_type_conformance, response_schema_conformance, response_headers_conformance, negative_data_rejection]
+  maxExamples: 25
+---
+apiVersion: fcd/v0
+kind: Step
+metadata: {name: security-freshness, title: Security en versheid}
+spec: {gate: security}
+---
+apiVersion: fcd/v0
+kind: Step
+metadata: {name: sbom-licenses, title: SBOM en licenties}
+spec: {gate: security, sbomFormat: cyclonedx-json}
+---
+apiVersion: fcd/v0
+kind: Step
+metadata: {name: deploy, title: Deployen}
+spec: {gate: deploy}
+---
+apiVersion: fcd/v0
+kind: Step
+metadata: {name: end-to-end-tests, title: End-to-end tests}
+spec: {gate: deploy, testType: end-to-end}
+---
+apiVersion: fcd/v0
+kind: Step
+metadata: {name: release, title: Releasen}
+spec: {gate: human}
+---
+apiVersion: fcd/v0
+kind: QualityGate
+metadata: {name: code, title: Codegate}
+spec:
+  afterSteps: [static-check, unit-tests, contract-test]
+  thresholds:
+    lintErrors: {max: 0}
+    unitTestsFailed: {max: 0}
+    contractLintErrors: {max: 0}
+    breakingChanges: {withoutNewMajor: 0}
+    versionsConsistent: true
+---
+apiVersion: fcd/v0
+kind: QualityGate
+metadata: {name: build, title: Bouwgate}
+spec:
+  afterSteps: [build, integration-tests]
+  thresholds:
+    integrationTestsFailed: {max: 0}
+---
+apiVersion: fcd/v0
+kind: QualityGate
+metadata: {name: security, title: Securitygate}
+spec:
+  afterSteps: [security-freshness, sbom-licenses]
+  thresholds:
+    vulnerabilities: {severities: [CRITICAL, HIGH], onlyWithFix: true, max: 0}
+    secrets: {max: 0}
+    misconfigurations: {severities: [CRITICAL, HIGH], max: 0}
+    freshness: {maxMajorBehind: 0, undetermined: warn}
+    licenses:
+      allowed: [MIT, MIT-0, Apache-2.0, BSD-2-Clause, BSD-3-Clause, ISC, Zlib, MPL-2.0, EPL-1.0, EPL-2.0, LGPL-2.0, LGPL-2.1, LGPL-2.1-only, LGPL-2.1-or-later, LGPL-3.0, LGPL-3.0-only, LGPL-3.0-or-later, Unlicense, CC0-1.0, 0BSD]
+      restricted: [GPL-1.0, GPL-2.0, GPL-2.0-only, GPL-2.0-or-later, GPL-2.0-with-classpath-exception, GPL-3.0, GPL-3.0-only, GPL-3.0-or-later]
+      restrictedInBaseImage: allowed
+      forbidden: [AGPL-1.0, AGPL-3.0, AGPL-3.0-only, AGPL-3.0-or-later, SSPL-1.0, BUSL-1.1, CC-BY-NC-4.0, Commons-Clause]
+      unknown: closed
+---
+apiVersion: fcd/v0
+kind: QualityGate
+metadata: {name: deploy, title: Uitrolgate}
+spec:
+  afterSteps: [deploy, end-to-end-tests]
+  thresholds:
+    readySeconds: {max: 60}
+    endToEndTestsFailed: {max: 0}
+---
+apiVersion: fcd/v0
+kind: QualityGate
+metadata: {name: human, title: Mensgate}
+spec:
+  beforeSteps: [release]
+  approval: merge-on-main-with-higher-version
+  principle: human-approves
+---
+apiVersion: fcd/v0
+kind: TestType
+metadata: {name: unit, title: Unittests}
+---
+apiVersion: fcd/v0
+kind: TestType
+metadata: {name: integration, title: Integratietests binnen het deelproduct}
+---
+apiVersion: fcd/v0
+kind: TestType
+metadata: {name: end-to-end, title: End-to-end tests met Playwright}
+---
+apiVersion: fcd/v0
+kind: Environment
+metadata: {name: demo, title: één omgeving}
+spec:
+  composeProjectPrefix: demo
+  ports: {dashboard: 8070, bestellen: 8080, stub-kitchen: 8091, stub-bar: 8092, stub-cash-register: 8093}
+---
+apiVersion: fcd/v0
+kind: Principle
+metadata: {name: human-approves}
+spec: {statement: "Een mens keurt afwijkingen goed.", explainAllowed: false}
+---
+apiVersion: fcd/v0
+kind: Principle
+metadata: {name: out-of-scope}
+spec: {statement: "Wat niet beschreven is, is buiten scope."}
+---
+apiVersion: fcd/v0
+kind: Principle
+metadata: {name: contract-first}
+spec: {statement: "Contract first: tussen deelproducten eerst het contract, dan de code. Het schema is onderdeel van het contract. Contracten in OpenAPI."}
+---
+apiVersion: fcd/v0
+kind: Principle
+metadata: {name: datamodel-first}
+spec: {statement: "Datamodel first: binnen een deelproduct eerst het datamodel, dan de code."}
+---
+apiVersion: fcd/v0
+kind: Principle
+metadata: {name: structure}
+spec: {statement: "Opbouw: micro-frontend (Angular), UX-API (Kotlin), backend (Kotlin), datastore", label: Architectuur}
+---
+apiVersion: fcd/v0
+kind: Principle
+metadata: {name: database}
+spec: {statement: "Database: PostgreSQL", label: Architectuur}
+---
+apiVersion: fcd/v0
+kind: Principle
+metadata: {name: containerization}
+spec: {statement: "Containerization", explainAllowed: true}
+---
+apiVersion: fcd/v0
+kind: Principle
+metadata: {name: docker-compose}
+spec: {statement: "Docker-compose"}
+---
+apiVersion: fcd/v0
+kind: Principle
+metadata: {name: kubernetes}
+spec: {statement: "Kubernetes", explainAllowed: true}
+---
+apiVersion: fcd/v0
+kind: Principle
+metadata: {name: environments}
+spec: {statement: "Omgevingen: OTAP"}
+---
+apiVersion: fcd/v0
+kind: Principle
+metadata: {name: automate-everything}
+spec: {statement: "Automate everything", explainAllowed: true}
+---
+apiVersion: fcd/v0
+kind: Principle
+metadata: {name: single-source-of-truth}
+spec: {statement: "Single source of truth", explainAllowed: true}
+---
+apiVersion: fcd/v0
+kind: Principle
+metadata: {name: everything-as-code}
+spec: {statement: "Everything as code", explainAllowed: true}
+---
+apiVersion: fcd/v0
+kind: Principle
+metadata: {name: declarative}
+spec: {statement: "Declarative", explainAllowed: true}
+---
+apiVersion: fcd/v0
+kind: Principle
+metadata: {name: gitops}
+spec: {statement: "GitOps: alles staat in git, en de pipeline rolt uit", explainAllowed: true}
+---
+apiVersion: fcd/v0
+kind: Principle
+metadata: {name: only-way-to-production}
+spec: {statement: "CI/CD – the only way to production, ook bij spoed.", explainAllowed: false}
+---
+apiVersion: fcd/v0
+kind: Principle
+metadata: {name: bash-script-only}
+spec: {statement: "Een bash-script is de enige weg om te bouwen en uit te rollen.", label: Continuous Delivery}
+---
+apiVersion: fcd/v0
+kind: Principle
+metadata: {name: github-actions}
+spec: {statement: "GitHub Actions roept hetzelfde bash-script aan.", label: Continuous Delivery}
+---
+apiVersion: fcd/v0
+kind: Principle
+metadata: {name: tdd}
+spec: {statement: "Test-driven development (TDD).", label: Testen}
+---
+apiVersion: fcd/v0
+kind: Principle
+metadata: {name: unit-tests}
+spec: {statement: "Unittests.", label: Testen}
+---
+apiVersion: fcd/v0
+kind: Principle
+metadata: {name: integration-tests}
+spec: {statement: "Integratietests binnen het deelproduct.", label: Testen}
+---
+apiVersion: fcd/v0
+kind: Principle
+metadata: {name: end-to-end-tests}
+spec: {statement: "End-to-end tests met Playwright.", label: Testen}
+---
+apiVersion: fcd/v0
+kind: Principle
+metadata: {name: language}
+spec: {statement: "Deze bestanden zijn in het Nederlands. Code is Engels: termen en variabelen in het Engels."}
+---
+apiVersion: fcd/v0
+kind: Principle
+metadata: {name: deployable-unit}
+spec: {statement: "Het deelproduct is de eenheid van deployment. Het bestaat uit één of meer containers. De pipeline deployt altijd het hele deelproduct."}
+---
+apiVersion: fcd/v0
+kind: Principle
+metadata: {name: subproduct-version}
+spec: {statement: "Het deelproduct heeft een eigen versie."}
+---
+apiVersion: fcd/v0
+kind: Principle
+metadata: {name: stubs}
+spec: {statement: "Stubs (zoals voor andere deelproducten) zijn losse containers, niet onderdeel van het deelproduct."}
+---
+apiVersion: fcd/v0
+kind: Explanation
+metadata: {name: demo-structure}
+spec: {principle: structure, subject: fcd-demo, reason: "demo: frontend en backend"}
+---
+apiVersion: fcd/v0
+kind: Explanation
+metadata: {name: demo-database}
+spec: {principle: database, subject: fcd-demo, reason: "demo: bestand"}
+---
+apiVersion: fcd/v0
+kind: Explanation
+metadata: {name: demo-kubernetes}
+spec: {principle: kubernetes, subject: fcd-demo, reason: "demo: docker-compose"}
+---
+apiVersion: fcd/v0
+kind: Explanation
+metadata: {name: demo-environments}
+spec: {principle: environments, subject: fcd-demo, reason: "demo: één omgeving"}
+---
+apiVersion: fcd/v0
+kind: Explanation
+metadata: {name: EXP-001}
+spec:
+  principle: quality-gate-security
+  subject: sk-demo
+  gate: security
+  rule: versheid frontend
+  reason: "Frontend loopt een major-versie achter (Angular 21 -> 22, TypeScript 5.9 -> 7, vitest 4 -> 5, jsdom 28 -> 31). Bijwerken na de demo (fcd-demo issue #1)."
+  approver: Johannes
+  approved: 2026-11-20
+  until: 2026-12-31
+---
+apiVersion: fcd/v0
+kind: Explanation
+metadata: {name: EXP-002}
+spec:
+  principle: quality-gate-security
+  subject: sk-demo
+  gate: security
+  rule: versheid backend
+  reason: "json-schema-validator loopt een major-versie achter (1.5.9 -> 3.0.9); versie 3 vereist Jackson 3. Bijwerken na de demo (fcd-demo issue #17)."
+  approver: Johannes
+  approved: 2026-11-20
+  until: 2026-12-31
+
