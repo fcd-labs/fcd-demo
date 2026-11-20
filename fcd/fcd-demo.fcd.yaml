@@ -61,6 +61,61 @@ spec:
   uses: {subProduct: fcd-dashboard, version: 0.3.0}
 ---
 apiVersion: fcd/v0
+kind: Registry
+metadata: {name: registry, title: API-register}
+spec:
+  tool: apicurio-registry
+  storage: in-memory          # afwijking EXP-003; de contracten staan in git, de Pipeline vult het register opnieuw
+---
+apiVersion: fcd/v0
+kind: Contract
+metadata: {name: order, title: De bestelling}
+spec:
+  repository: sk-demo
+  file: contracts/order.openapi.yaml
+  type: OPENAPI
+  between: {from: bestellen, to: [stub-keuken, stub-bar, stub-kassa]}
+  compatibility: BACKWARD
+---
+apiVersion: fcd/v0
+kind: Contract
+metadata: {name: bestellen-api, title: Frontend en backend van Bestellen}
+spec:
+  repository: sk-demo
+  file: bestellen/contracts/bestellen-api.openapi.yaml
+  type: OPENAPI
+  between: {from: bestellen-frontend, to: [bestellen-backend]}
+  compatibility: BACKWARD
+---
+apiVersion: fcd/v0
+kind: Contract
+metadata: {name: logline, title: De logregel}
+spec:
+  repository: fcd-dashboard
+  file: contracts/logline.schema.json
+  type: JSON
+  between: {from: [pipeline, bestellen], to: [dashboard]}
+  compatibility: BACKWARD
+---
+apiVersion: fcd/v0
+kind: Contract
+metadata: {name: logline-api, title: Het eindpunt voor logregels}
+spec:
+  repository: fcd-dashboard
+  file: contracts/logline.openapi.yaml
+  type: OPENAPI
+  compatibility: BACKWARD
+---
+apiVersion: fcd/v0
+kind: Contract
+metadata: {name: dashboard-api, title: Frontend en backend van het Dashboard}
+spec:
+  repository: fcd-dashboard
+  file: contracts/dashboard-api.openapi.yaml
+  type: OPENAPI
+  compatibility: BACKWARD
+---
+apiVersion: fcd/v0
 kind: Step
 metadata: {name: static-check, title: Statische controle}
 spec: {gate: code}
@@ -185,7 +240,7 @@ kind: Environment
 metadata: {name: demo, title: één omgeving}
 spec:
   composeProjectPrefix: demo
-  ports: {dashboard: 8070, bestellen: 8080, stub-kitchen: 8091, stub-bar: 8092, stub-cash-register: 8093}
+  ports: {dashboard: 8070, registry: 8071, bestellen: 8080, stub-kitchen: 8091, stub-bar: 8092, stub-cash-register: 8093}
 ---
 apiVersion: fcd/v0
 kind: Principle
@@ -361,6 +416,17 @@ spec:
   gate: security
   rule: versheid backend
   reason: "json-schema-validator loopt een major-versie achter (1.5.9 -> 3.0.9); versie 3 vereist Jackson 3. Bijwerken na de demo (fcd-demo issue #17)."
+  approver: Johannes
+  approved: 2026-11-20
+  until: 2026-12-31
+---
+apiVersion: fcd/v0
+kind: Explanation
+metadata: {name: EXP-003}
+spec:
+  principle: database
+  subject: registry
+  reason: "Apicurio Registry houdt de contracten voor de demo in het geheugen (H2), niet in PostgreSQL. De contracten staan in git; na een herstart vult de Pipeline het register opnieuw."
   approver: Johannes
   approved: 2026-11-20
   until: 2026-12-31
