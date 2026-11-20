@@ -16,6 +16,15 @@ De declaratieve bestanden staan in [fcd](https://github.com/fcd-labs/fcd/tree/ma
 ## Zelf draaien
 
 Alles draait lokaal. Nodig: git, bash en een container-runtime met `docker` en `docker compose`.
-Fork of clone deze repository en de repositories hierboven naast elkaar in één map. Het startcommando volgt.
+Fork of clone de repositories naast elkaar in één map (`fcd`, `fcd-demo`, `fcd-demo-pipeline`, `fcd-demo-dashboard`, `sk-demo`). Dan:
+
+```bash
+./fcd check
+./fcd up
+```
+
+`./fcd up` start de Pipeline-agent. Die haalt `main` op, doorloopt de CI-stappen en quality gates, en rolt ShowKitchen (http://127.0.0.1:8080) en het Dashboard (http://127.0.0.1:8070) uit. De eerste keer duurt dat even. `./fcd down` stopt alles.
+
+Het contract van de logregel: [contracts/logline.md](contracts/logline.md).
 
 Licentie: [MIT](LICENSE).

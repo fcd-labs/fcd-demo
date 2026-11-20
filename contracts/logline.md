@@ -29,7 +29,7 @@ De afspraak tussen de squads: de pipelines van `sk-demo` en `fcd-demo` (en de me
 | `dev.cdevents.pipelinerun.started.0.2.0` / `.finished` | Begin en eind van een run | `pipelineName`, `outcome` (`running`, `success`, `failure`), `errors`, `warnings` |
 | `dev.cdevents.taskrun.started.0.2.0` / `.finished` | Elke CI-stap | `taskName`, `step` (1–10), `title`, `outcome` (`running`, `succeeded`, `failed`, `skipped`), `reason` |
 | `dev.cdevents.testsuiterun.finished.0.2.0` | Na unit-, integratie- en end-to-end tests | `testType`, `outcome` (`pass`, `fail`), `tests`, `passed`, `failed`, `skipped`, `seconds`, `failures` (namen) |
-| `dev.cdeventsx.fcd-qualitygate.evaluated.0.1.0` | Elke quality gate | `gate` (`code`, `build`, `security`, `deploy`, `human`), `afterSteps`, `outcome` (`open`, `closed`), `reason`, `explain` (id's van gebruikte afwijkingen) |
+| `dev.cdeventsx.fcd-qualitygate.evaluated.0.1.0` | Elke quality gate | `gate` (`code`, `build`, `security`, `deploy`, `human`), `afterSteps`, `outcome` (`open`, `closed`), `reason`, `explain` (id's van gebruikte afwijkingen), `explainDetails` (per afwijking: `id`, `gate`, `rule`, `reason`, `approver`, `until`) |
 | `dev.cdevents.service.deployed.0.2.0` | Na een uitrol | `environment.id`, `artifactId` |
 | `dev.cdevents.artifact.published.0.2.0` | Na een release | `tag`, `releaseType` |
 | `dev.cdeventsx.fcd-keyresult.measured.0.1.0` | Per bestelling (sk-demo) | `keyResult`, `orderId`, `tableNumber`, `receivers` (per stub: `arrived`, `receivedAt`), `complete` |
@@ -53,7 +53,8 @@ De afspraak tussen de squads: de pipelines van `sk-demo` en `fcd-demo` (en de me
       "afterSteps": "6-7",
       "outcome": "closed",
       "reason": "image showkitchen/bestellen-frontend:0.2.1: kritieke of hoge kwetsbaarheid",
-      "explain": ""
+      "explain": "",
+      "explainDetails": []
     }
   },
   "customData": {
