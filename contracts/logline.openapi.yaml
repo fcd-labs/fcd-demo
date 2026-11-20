@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Logline contract (fcd-demo Dashboard)
-  version: 0.1.2
+  version: 0.2.0
   license:
     name: MIT
     identifier: MIT
