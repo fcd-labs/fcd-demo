@@ -46,14 +46,11 @@ Bestellingen van de end-to-end tests tellen niet mee (`trigger.kind: test`).
 
 Laat zien: dezelfde pipeline en dezelfde gates, een regel in `SECURITY.md`, en een hersteltijd op het Dashboard.
 
-Voorstel (nog voor te bereiden, na demo 1): in 0.5.0 blijkt een beveiligingsheader te ontbreken. De noodpatch 0.5.1:
-1. `git switch -c noodpatch/header main`; zet de header terug in `bestellen/frontend/nginx.conf` en voeg een end-to-end test toe die de beveiligingsheaders controleert.
-2. `../fcd-pipeline/fcd bump . bestellen-frontend patch` (frontend 0.1.1, Bestellen 0.5.1).
-3. `CHANGELOG.md`: de kop wordt `## [0.5.1] - <datum> - Noodpatch (security)`. `SECURITY.md`: één regel, met "Bestellen 0.5.1".
-4. Push (de pre-push-hook draait), pull request, merge. De agent draait dezelfde stappen en gates (de codegate controleert de regel in `SECURITY.md`).
-5. Dashboard, tab KPI's: één mislukte wijziging (0.5.0) en de **hersteltijd** van 0.5.0 tot 0.5.1. De run heet "noodpatch".
-
-Hiervoor moet 0.5.0 de header missen. Kies: (a) de header gaat in de Tiramisu-wijziging mee weg (in scène gezet), of (b) een andere fout uit 0.5.0. Johannes kiest.
+In scène gezet (keuze Johannes): in 0.5.0 (de Tiramisu-wijziging) ontbreekt de beveiligingsheader Permissions-Policy. De noodpatch staat klaar op `demo/4-noodpatch`:
+1. `git switch demo/4-noodpatch`. Laat zien: de header terug in `bestellen/frontend/nginx.conf`, een nieuwe end-to-end test op alle beveiligingsheaders, `versions.env` (frontend 0.2.1, Bestellen 0.5.1), de kop `## [0.5.1] - … - Noodpatch (security)` in `CHANGELOG.md` en één regel in `SECURITY.md`.
+2. Push (de pre-push-hook draait dezelfde stappen en gates), pull request, merge.
+3. De agent draait dezelfde stappen en gates; de codegate controleert de regel in `SECURITY.md`. De run heet "noodpatch".
+4. Dashboard, tab KPI's: één mislukte wijziging (0.5.0) en de **hersteltijd** van 0.5.0 tot 0.5.1.
 
 ## 5. Een wijziging in de configuratie, zonder codewijziging (± 4 min)
 
