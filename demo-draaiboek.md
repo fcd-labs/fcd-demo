@@ -1,31 +1,32 @@
 # Draaiboek demo showcase Demo
 
-Vijf onderdelen, samen ongeveer 20 minuten. Alles draait lokaal op de Mac. De Pipeline-agent draait (`./fcd up`) en het Dashboard staat open op http://127.0.0.1:8070.
+Zes onderdelen, samen ongeveer 25 minuten. Alles draait lokaal op de Mac. Pipeline en Dashboard zijn van FCD; deze showcase gebruikt de versies die in [fcd/fcd-demo.fcd.yaml](fcd/fcd-demo.fcd.yaml) zijn vastgelegd. Start vanuit `fcd-demo`: `../fcd-pipeline/fcd up`. Het Dashboard staat open op http://127.0.0.1:8070.
 
 ## Vooraf (10 minuten, vóór de demo)
 
-1. `./fcd check`: alles ✓.
-2. `./fcd status`: de agent draait; ShowKitchen en het Dashboard draaien.
-3. Open twee tabbladen: ShowKitchen http://127.0.0.1:8080 en het Dashboard http://127.0.0.1:8070.
-4. Laat de images één keer bouwen (dan is de demo snel): `../fcd-demo-pipeline/fcd ci .` in `sk-demo` op `main`.
-5. Controleer de voorbereide branches in `sk-demo`: `demo/1-tiramisu` en `demo/2-kwetsbare-nginx` (lokaal, niet gepusht).
+1. `../fcd-pipeline/fcd check`: alles ✓ (ook de poorten uit de configuratie).
+2. `../fcd-pipeline/fcd experiment start demo`: een lege log voor de demo (de log van mvp0 blijft bewaard).
+3. `../fcd-pipeline/fcd status`: de agent draait; ShowKitchen en het Dashboard draaien.
+4. Open twee tabbladen: ShowKitchen http://127.0.0.1:8080 en het Dashboard http://127.0.0.1:8070.
+5. Laat de images één keer bouwen (dan is de demo snel): `../fcd-pipeline/fcd ci .` in `sk-demo` op `main`.
+6. Controleer de voorbereide branches in `sk-demo`: `demo/1-tiramisu` en `demo/2-kwetsbare-nginx` (lokaal, niet gepusht).
 
 ## 1. Een kleine wijziging: Tiramisu op het menu (± 5 min)
 
 Laat zien: pull request, lokaal getest, jij merget, de Pipeline doorloopt de stappen en gates, rolt uit, nieuwe versie met een regel in de changelog, het Dashboard werkt bij.
 
-1. In `sk-demo`: `git switch demo/1-tiramisu`. Laat de wijziging zien: `menu.yaml` (Tiramisu), `versions.env` (backend en Bestellen 0.4.0, met `fcd bump`), `CHANGELOG.md`.
+1. In `sk-demo`: `git switch demo/1-tiramisu`. Laat de wijziging zien: `menu.yaml` (Tiramisu), `versions.env` (backend en Bestellen 0.5.0, met `fcd bump`), `CHANGELOG.md`.
 2. `git push -u origin demo/1-tiramisu`: de pre-push-hook draait dezelfde stappen en gates lokaal (± 2 min). Het Dashboard toont de run als `werkplek`.
 3. Maak de pull request (`gh pr create`) en **merge hem** (de mensgate).
-4. Binnen 30 seconden ziet de agent de merge. Het Dashboard toont de run `lokaal`: stappen 1–10, de gates, en daarna Bestellen 0.4.0 uitgerold.
-5. ShowKitchen herladen: Tiramisu staat op het menu. Op GitHub: release v0.4.0 met de tekst uit de changelog.
+4. Binnen 30 seconden ziet de agent de merge. Het Dashboard toont de run `lokaal`: stappen 1–10, de gates, en daarna Bestellen 0.5.0 uitgerold.
+5. ShowKitchen herladen: Tiramisu staat op het menu. Op GitHub: release v0.5.0 met de tekst uit de changelog.
 
 ## 2. Een gate die dichtvalt (± 3 min)
 
 Laat zien: een kwetsbare library, er wordt niet uitgerold, en het Dashboard laat zien waarom.
 
 1. `git switch demo/2-kwetsbare-nginx`: de frontend gaat terug naar het oude nginx-image (1.30.6, met kritieke kwetsbaarheden).
-2. `../fcd-demo-pipeline/fcd ci .` (± 2 min).
+2. `../fcd-pipeline/fcd ci .` (± 2 min).
 3. Het Dashboard: Bestellen **rood**, "Vast: bestellen: Securitygate dicht", met de reden ("kritieke of hoge kwetsbaarheid"). Stap 8 (Deployen) is niet gedaan. Onder KPI's telt de securitygate één keer dicht meer.
 4. Niets gepusht, niets uitgerold. `git switch main`.
 
@@ -45,23 +46,33 @@ Bestellingen van de end-to-end tests tellen niet mee (`trigger.kind: test`).
 
 Laat zien: dezelfde pipeline en dezelfde gates, een regel in `SECURITY.md`, en een hersteltijd op het Dashboard.
 
-Voorstel (nog voor te bereiden, na demo 1): in 0.4.0 blijkt een beveiligingsheader te ontbreken. De noodpatch 0.4.1:
+Voorstel (nog voor te bereiden, na demo 1): in 0.5.0 blijkt een beveiligingsheader te ontbreken. De noodpatch 0.5.1:
 1. `git switch -c noodpatch/header main`; zet de header terug in `bestellen/frontend/nginx.conf` en voeg een end-to-end test toe die de beveiligingsheaders controleert.
-2. `../fcd-demo-pipeline/fcd bump . bestellen-frontend patch` (frontend 0.1.1, Bestellen 0.4.1).
-3. `CHANGELOG.md`: de kop wordt `## [0.4.1] - <datum> - Noodpatch (security)`. `SECURITY.md`: één regel, met "Bestellen 0.4.1".
+2. `../fcd-pipeline/fcd bump . bestellen-frontend patch` (frontend 0.1.1, Bestellen 0.5.1).
+3. `CHANGELOG.md`: de kop wordt `## [0.5.1] - <datum> - Noodpatch (security)`. `SECURITY.md`: één regel, met "Bestellen 0.5.1".
 4. Push (de pre-push-hook draait), pull request, merge. De agent draait dezelfde stappen en gates (de codegate controleert de regel in `SECURITY.md`).
-5. Dashboard, tab KPI's: één mislukte wijziging (0.4.0) en de **hersteltijd** van 0.4.0 tot 0.4.1. De run heet "noodpatch".
+5. Dashboard, tab KPI's: één mislukte wijziging (0.5.0) en de **hersteltijd** van 0.5.0 tot 0.5.1. De run heet "noodpatch".
 
-Hiervoor moet 0.4.0 de header missen. Kies: (a) de header gaat in de Tiramisu-wijziging mee weg (in scène gezet), of (b) een andere fout uit 0.4.0. Johannes kiest.
+Hiervoor moet 0.5.0 de header missen. Kies: (a) de header gaat in de Tiramisu-wijziging mee weg (in scène gezet), of (b) een andere fout uit 0.5.0. Johannes kiest.
 
-## 5. Het statusrapport (± 2 min)
+## 5. Een wijziging in de configuratie, zonder codewijziging (± 4 min)
+
+Laat zien: wat per showcase verschilt staat in de configuratie; Pipeline en Dashboard volgen het.
+
+1. In `fcd-demo`: `git switch -c drempel-versheid`. In [fcd/fcd-demo.fcd.yaml](fcd/fcd-demo.fcd.yaml), bij `QualityGate security`: `freshness: {maxMajorBehind: 1, …}` (was 0).
+2. Pull request en **merge** (de mensgate geldt ook voor de configuratie).
+3. De agent ziet de nieuwe configuratie ("configuratie gewijzigd") en haalt Bestellen opnieuw door de pipeline, met dezelfde code.
+4. Dashboard: de securitygate van Bestellen meldt alleen nog de backend-library (twee major-versies achter, afwijking EXP-002); de frontend (één major achter) valt binnen de nieuwe drempel en heeft EXP-001 niet meer nodig.
+5. Terugdraaien: dezelfde wijziging terug, of laten staan als besluit.
+
+## 6. Het statusrapport (± 2 min)
 
 1. Dashboard, tab **Statusrapport**: datum, showcase, experiment, versies, pipelines en gates, KPI's, testresultaten, key result.
 2. "Bewaren als Markdown" of "Afdrukken of bewaren als PDF".
-3. Of: `./fcd report` zet het in `fcd-demo/reports/`, om rapporten te vergelijken.
+3. Of: `../fcd-pipeline/fcd report` zet het rapport in `reports/` en de log in `log/`, om rapporten en showcases te vergelijken.
 
 ## Als iets misgaat
 
-- De agent staat stil: `./fcd status`, en `./fcd up` start hem opnieuw. `./fcd logs` laat zien wat hij doet.
-- Het Dashboard toont niets nieuws: logregels zonder Dashboard staan in `~/.fcd/outbox.jsonl` en komen er bij de volgende run in.
+- De agent staat stil: `../fcd-pipeline/fcd status`, en `../fcd-pipeline/fcd up` start hem opnieuw. `../fcd-pipeline/fcd logs` laat zien wat hij doet.
+- Het Dashboard toont niets nieuws: logregels zonder Dashboard staan in `~/.fcd/demo/outbox.jsonl` en komen er bij de volgende run in.
 - Downloads zijn traag (Maven Central, npm): laat de images vooraf bouwen (zie Vooraf, stap 4).
