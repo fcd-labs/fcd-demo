@@ -342,7 +342,8 @@ kind: Explanation
 metadata: {name: EXP-001}
 spec:
   principle: quality-gate-security
-  subject: sk-demo
+  # fcd-dashboard: D1 (tijdelijk), tot de configuratie van FCD zelf in fcd staat.
+  subjects: [sk-demo, fcd-dashboard]
   gate: security
   rule: versheid frontend
   reason: "Frontend loopt een major-versie achter (Angular 21 -> 22, TypeScript 5.9 -> 7, vitest 4 -> 5, jsdom 28 -> 31). Bijwerken na de demo (fcd-demo issue #1)."
@@ -355,7 +356,8 @@ kind: Explanation
 metadata: {name: EXP-002}
 spec:
   principle: quality-gate-security
-  subject: sk-demo
+  # fcd-dashboard: D1 (tijdelijk), tot de configuratie van FCD zelf in fcd staat.
+  subjects: [sk-demo, fcd-dashboard]
   gate: security
   rule: versheid backend
   reason: "json-schema-validator loopt een major-versie achter (1.5.9 -> 3.0.9); versie 3 vereist Jackson 3. Bijwerken na de demo (fcd-demo issue #17)."
