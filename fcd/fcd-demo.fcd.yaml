@@ -105,6 +105,8 @@ spec:
   file: contracts/logline.openapi.yaml
   type: OPENAPI
   compatibility: BACKWARD
+  references:
+    - {name: ./logline.schema.json, contract: logline}
 ---
 apiVersion: fcd/v0
 kind: Contract
