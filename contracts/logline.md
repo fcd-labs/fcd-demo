@@ -1,4 +1,4 @@
-# Contract: de logregel (versie 0.1.2)
+# Contract: de logregel (versie 0.2.0)
 
 De afspraak tussen de squads: de pipelines van `sk-demo` en `fcd-demo` (en de meting van het key result in `sk-demo`) sturen logregels; het Dashboard ontvangt ze. Contract first: eerst dit contract wijzigen, met een nieuwe versie, dan de code.
 
@@ -13,7 +13,7 @@ De afspraak tussen de squads: de pipelines van `sk-demo` en `fcd-demo` (en de me
 |---|---|---|
 | tijd | `context.timestamp` | Wanneer de activiteit begon (ISO 8601, UTC) |
 | duur | `customData.durationSeconds` | Hoe lang de activiteit duurde, in seconden |
-| wie triggert | `customData.trigger` | `kind`: `human`, `ai-agent`, `automated-update` (of `guest` bij het key result); `name` |
+| wie triggert | `customData.trigger` | `kind`: `human`, `ai-agent`, `automated-update`; bij het key result `guest` (een echte gast) of `test` (een bestelling van een end-to-end test, telt niet mee); `name` |
 | deelproduct | `customData.product`, `customData.subProduct` | Product, deelproduct met versie, en de versies van de containers |
 | actie | `context.type` + `subject.content` | Welke stap of gate, en de uitkomst |
 | run | `customData.run` | De run van de pipeline |
@@ -93,6 +93,7 @@ De afspraak tussen de squads: de pipelines van `sk-demo` en `fcd-demo` (en de me
 
 ## Versies
 
+- 0.2.0: `trigger.kind` `test` voor bestellingen van end-to-end tests; die tellen niet mee voor het key result. Uitbreiding, niet breaking.
 - 0.1.2: het patroon voor `experiment` is weer weg: dat was een breaking change (gevonden door de contracttest, oasdiff). Weer compatibel met 0.1.0.
 - 0.1.1: `experiment` alleen letters, cijfers, `.`, `_` en `-` (gevonden door de contracttest van het Dashboard).
 - 0.1.0: eerste versie.
