@@ -43,7 +43,7 @@ metadata:
   name: pipeline
   title: Pipeline
 spec:
-  uses: {subProduct: fcd-pipeline, version: 0.4.1}
+  uses: {subProduct: fcd-pipeline, version: 0.5.0}
   builds: true
   deploys: true
   calledBy: Pipeline-agent
@@ -58,7 +58,7 @@ apiVersion: fcd/v0
 kind: Dashboard
 metadata: {name: dashboard, title: Dashboard}
 spec:
-  uses: {subProduct: fcd-dashboard, version: 0.3.0}
+  uses: {subProduct: fcd-dashboard, version: 0.3.1}
 ---
 apiVersion: fcd/v0
 kind: Registry
