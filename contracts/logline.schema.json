@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/fcd-labs/fcd-demo/contracts/logline.schema.json",
   "title": "Logline",
-  "description": "One log line of fcd-demo: a CDEvent (CD Foundation, spec 0.4) with FCD fields in customData. Version 0.1.1.",
+  "description": "One log line of fcd-demo: a CDEvent (CD Foundation, spec 0.4) with FCD fields in customData. Version 0.1.2.",
   "type": "object",
   "required": ["context", "subject", "customData"],
   "properties": {
@@ -68,7 +68,7 @@
           }
         },
         "showcase": { "type": "string", "enum": ["demo", "classic", "ideal"] },
-        "experiment": { "type": "string", "pattern": "^[A-Za-z0-9._-]{1,50}$", "description": "e.g. mvp0; every experiment starts with an empty log" },
+        "experiment": { "type": "string", "maxLength": 50, "description": "e.g. mvp0 (use letters, digits, . _ -); every experiment starts with an empty log" },
         "environment": { "type": "string", "enum": ["werkplek", "lokaal"], "description": "werkplek: before a push; lokaal: the deployed environment" },
         "releaseType": { "type": "string", "enum": ["planned", "emergency"] }
       }

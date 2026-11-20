@@ -1,4 +1,4 @@
-# Contract: de logregel (versie 0.1.1)
+# Contract: de logregel (versie 0.1.2)
 
 De afspraak tussen de squads: de pipelines van `sk-demo` en `fcd-demo` (en de meting van het key result in `sk-demo`) sturen logregels; het Dashboard ontvangt ze. Contract first: eerst dit contract wijzigen, met een nieuwe versie, dan de code.
 
@@ -18,7 +18,7 @@ De afspraak tussen de squads: de pipelines van `sk-demo` en `fcd-demo` (en de me
 | actie | `context.type` + `subject.content` | Welke stap of gate, en de uitkomst |
 | run | `customData.run` | De run van de pipeline |
 | commit | `customData.commit` | `sha` en `time`: voor de doorlooptijd (DORA) |
-| showcase, experiment | `customData.showcase`, `customData.experiment` | Bijvoorbeeld `demo`, `mvp0` (alleen letters, cijfers, `.`, `_` en `-`). Elk experiment begint met een lege log. |
+| showcase, experiment | `customData.showcase`, `customData.experiment` | Bijvoorbeeld `demo`, `mvp0` (gebruik letters, cijfers, `.`, `_` en `-`). Elk experiment begint met een lege log. |
 | omgeving | `customData.environment` | `werkplek` (vóór een push) of `lokaal` (de uitgerolde omgeving; telt voor DORA) |
 | soort release | `customData.releaseType` | `planned` of `emergency` (noodpatch) |
 
@@ -93,5 +93,6 @@ De afspraak tussen de squads: de pipelines van `sk-demo` en `fcd-demo` (en de me
 
 ## Versies
 
+- 0.1.2: het patroon voor `experiment` is weer weg: dat was een breaking change (gevonden door de contracttest, oasdiff). Weer compatibel met 0.1.0.
 - 0.1.1: `experiment` alleen letters, cijfers, `.`, `_` en `-` (gevonden door de contracttest van het Dashboard).
 - 0.1.0: eerste versie.
