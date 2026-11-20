@@ -72,6 +72,12 @@ Een drempel of stap wijzigen is een pull request op deze repository, door Johann
 - Testdekking (coverage) heeft voor de demo geen drempel.
 - Wat niet als configuratie kan, staat als issue in `fcd`.
 
+## Contract first
+
+Kader: tussen deelproducten eerst het contract, dan de code; het schema is onderdeel van het contract (besluit Johannes, 20 november 2026). De contracten staan in git met een eigen versie (`kind: Contract` in de configuratie), en in het API-register van de showcase (Apicurio Registry) met de regel BACKWARD. Stap 3 controleert: klopt het contract, is de versie omhoog als het veranderde, en is het niet gebroken (oasdiff en het register).
+
+**Afwijking (gemeld 20 november 2026):** mvp0 is contract first in de volgorde (het contract van de bestelling kwam vóór de code), maar de code wordt niet tegen het contract zelf gecontroleerd (backend en stubs met handgeschreven regels), het contract van de bestelling veranderde zonder nieuwe versie, en de zenders van de logregel worden niet tegen het schema getest. Herstel: zie de issues in deze repository.
+
 ## Goedgekeurde afwijkingen
 
 Besluit: alles is open source (Johannes, 20 november 2026). Goedgekeurde afwijkingen op de way of working (Johannes, 20 november 2026); afwijkingen op een quality gate staan in de configuratie (`Explanation`):
@@ -79,4 +85,5 @@ Besluit: alles is open source (Johannes, 20 november 2026). Goedgekeurde afwijki
 | Afwijking | Reden | Exitstrategie |
 |---|---|---|
 | GitHub als plek voor repositories, issues, board, releases en update-pull-requests (Dependabot) | Gratis en de de-facto-standaard | Alles staat in git en de pipeline draait lokaal; elke git-host werkt |
+| Apicurio Registry in het geheugen (EXP-003, tot 2026-12-31; kader "Database: PostgreSQL") | Voor de demo; de contracten staan in git en de Pipeline vult het register opnieuw | Opslag in PostgreSQL (Apicurio ondersteunt dat) |
 | Docker Desktop voor de demo | Gratis voor Johannes | FCD gebruikt alleen gewone `docker`- en `docker compose`-commando's en werkt met elke open source runtime |
