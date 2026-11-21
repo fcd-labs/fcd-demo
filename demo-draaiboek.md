@@ -52,8 +52,9 @@ Generale repetitie: ± 1 minuut tot de mensgate, ± 70 seconden in totaal.
 
 1. Dashboard: **✔ Gelukt – Bestellen 1.0.1 · uitgerold · gereleased (v1.0.1)**; **Draait nu: Bestellen 1.0.1** (frontend 1.0.0, backend 1.0.1).
 2. Tab **Changelog**: Bestellen 1.0.1, de regel van de patch.
-3. ShowKitchen herladen, een nieuwe bestelling: de bar ✓.
-4. Dashboard, Live: het key result **groen**.
+3. Dashboard, Live: het key result staat **grijs**: "Bestellen 1.0.1 – nog geen bestelling van een gast gemeten". Het key result volgt de versie die draait.
+4. ShowKitchen herladen, een nieuwe bestelling: de bar ✓.
+5. Dashboard, Live: het key result **groen** (1 van 1 bestellingen met 1.0.1). Tabblad Key result: per versie, 1.0.0 0% en 1.0.1 100%.
 
 ## 7. Afsluiting (± 3 min)
 
@@ -63,7 +64,7 @@ Generale repetitie: ± 1 minuut tot de mensgate, ± 70 seconden in totaal.
 
 ## 8. Na de demo
 
-**↺ Demo opnieuw** op het Dashboard (met bevestiging; vink aan om eerst de run en het statusrapport te bewaren), of `./fcd-pipeline/fcd demo reset --save`. Het statusrapport en de log komen in `reports/` en `log/` van deze repository (lokaal; niet pushen zonder besluit).
+**↺ Demo opnieuw** op het Dashboard (met bevestiging; vink aan om eerst de run en het statusrapport te bewaren), of `./fcd-pipeline/fcd demo reset --save`. Het statusrapport (als leesbare pagina `.html` en als Markdown `.md`) en de log komen in `reports/` en `log/` van deze repository (lokaal; niet pushen zonder besluit). Op het Dashboard staat het rapport opgemaakt in het tabblad Statusrapport.
 
 ## Als iets misgaat
 
