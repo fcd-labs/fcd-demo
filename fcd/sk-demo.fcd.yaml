@@ -59,6 +59,7 @@ spec:
   product: showkitchen
   stub: true
   receiver: kitchen   # de ontvanger in het contract van de bestelling
+  service: stub-kitchen   # de naam van de container in de code (docker compose)
 ---
 apiVersion: fcd/v0
 kind: Container
@@ -69,6 +70,7 @@ spec:
   product: showkitchen
   stub: true
   receiver: bar   # de ontvanger in het contract van de bestelling
+  service: stub-bar
 ---
 apiVersion: fcd/v0
 kind: Container
@@ -79,3 +81,4 @@ spec:
   product: showkitchen
   stub: true
   receiver: cash-register   # de ontvanger in het contract van de bestelling
+  service: stub-cash-register
