@@ -58,7 +58,19 @@ apiVersion: fcd/v0
 kind: Dashboard
 metadata: {name: dashboard, title: Dashboard}
 spec:
-  uses: {subProduct: fcd-dashboard, version: 0.3.1}
+  uses: {subProduct: fcd-dashboard, version: 0.4.0}
+  # Live weergave van de pipeline (besluit Johannes, 21 november 2026). Het FCD-model kent spec.live nog niet (issue in fcd).
+  # De stappen, gates en hun volgorde komen uit Pipeline, Step en QualityGate hierboven; niet herhalen.
+  live:
+    subProducts: []                   # welke deelproducten, in deze volgorde; leeg is alle
+    environments: [lokaal, werkplek]  # welke runs (werkplek: vóór een push)
+    layout: stacked                   # stacked (onder elkaar) of side-by-side
+    keepFinishedSeconds: 600          # zo lang blijft een afgelopen run groot staan
+    presentation:
+      title: "Showcase Demo – live"
+      theme: dark
+      fontScale: 1.6
+      focusRunning: true              # het lopende deelproduct bovenaan
 ---
 apiVersion: fcd/v0
 kind: Registry
