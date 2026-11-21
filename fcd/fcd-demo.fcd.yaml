@@ -242,7 +242,7 @@ kind: Environment
 metadata: {name: demo, title: één omgeving}
 spec:
   composeProjectPrefix: demo
-  ports: {dashboard: 8070, registry: 8071, bestellen: 8080, stub-kitchen: 8091, stub-bar: 8092, stub-cash-register: 8093}
+  ports: {dashboard: 8070, registry: 8071, registry-ui: 8072, bestellen: 8080, stub-kitchen: 8091, stub-bar: 8092, stub-cash-register: 8093}
 ---
 apiVersion: fcd/v0
 kind: Principle
