@@ -40,6 +40,7 @@ Vanuit de map `fcd-labs`. Pipeline en Dashboard zijn van FCD; deze showcase gebr
 1. **▶ Pipeline starten (Johannes)**: de mensgate bij de start; de naam komt in de logregel.
 2. Live, zonder verversen:
    - per container (frontend, backend) een rij: statische controle, unittests, contracttest, bouwen; daaronder de rij van het deelproduct Bestellen: integratie, security, SBOM, deployen, end-to-end, releasen;
+   - de frontend blijft 1.0.0 en slaat zijn stappen over ("ongewijzigd, draait al"): containers hebben een eigen lifecycle; alleen de backend (1.0.1) loopt;
    - de gates gaan open (codegate, bouwgate, securitygate met de afwijkingen EXP-001/EXP-002, uitrolgate);
    - de testtellers lopen mee;
    - **grijs**: stappen in de backlog (ESLint, testdekking, consumer-contracttest, DAST, performancetests): de pipeline is bewust niet compleet, grow through doing;
