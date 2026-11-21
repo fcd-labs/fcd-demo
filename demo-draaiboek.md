@@ -7,7 +7,7 @@ Zeven onderdelen, samen ongeveer 28 minuten. Alles draait lokaal op de Mac. Pipe
 1. `../fcd-pipeline/fcd check`: alles ✓ (ook de poorten uit de configuratie).
 2. `../fcd-pipeline/fcd experiment start demo`: een lege log voor de demo (de log van mvp0 blijft bewaard).
 3. `../fcd-pipeline/fcd status`: de agent draait; ShowKitchen en het Dashboard draaien.
-4. Open twee tabbladen: ShowKitchen http://127.0.0.1:8080 en het Dashboard http://127.0.0.1:8070.
+4. Open drie tabbladen: ShowKitchen http://127.0.0.1:8080, het Dashboard http://127.0.0.1:8070 en het API-register http://127.0.0.1:8072.
 5. Laat de images één keer bouwen (dan is de demo snel): `../fcd-pipeline/fcd ci .` in `sk-demo` op `main`.
 6. Controleer de voorbereide branches in `sk-demo`: `demo/1-tiramisu` en `demo/2-kwetsbare-nginx` (lokaal, niet gepusht).
 
@@ -68,7 +68,7 @@ Laat zien: contract first. Een wijziging die het contract breekt, laat de codega
 
 1. In `sk-demo`: `git switch demo/3-brekend-contract`. De bestelling krijgt een verplicht veld `guestName` (contract 0.2.0).
 2. `../fcd-pipeline/fcd ci .` (stap 1–3 zijn genoeg: `--until 3`, ± 1 min).
-3. De codegate valt dicht: "brekende wijziging (oasdiff)" en "niet backward compatibel volgens het API-register". Het Dashboard toont de reden. Het API-register (http://127.0.0.1:8071) toont de versies die er wel in staan.
+3. De codegate valt dicht: "brekende wijziging (oasdiff)" en "niet backward compatibel volgens het API-register". Het Dashboard toont de reden. Het API-register (webinterface http://127.0.0.1:8072, tab Search) toont de contracten met hun versies; zoek op Bestellen of op het label `deelproduct=bestellen`.
 4. `git switch main`. Niets gepusht, niets uitgerold.
 
 ## 7. Het statusrapport (± 2 min)

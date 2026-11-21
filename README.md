@@ -23,6 +23,6 @@ Clone de repositories naast elkaar in één map (`fcd`, `fcd-demo`, `fcd-pipelin
 ../fcd-pipeline/fcd up
 ```
 
-`fcd up` start het Dashboard en de Pipeline-agent van deze showcase, in de vastgelegde versies. De agent haalt `main` op, doorloopt de stappen en gates uit de configuratie, en rolt ShowKitchen uit. Poorten: zie `Environment` in de configuratie (Dashboard http://127.0.0.1:8070, ShowKitchen http://127.0.0.1:8080).
+`fcd up` start het Dashboard en de Pipeline-agent van deze showcase, in de vastgelegde versies. De agent haalt `main` op, doorloopt de stappen en gates uit de configuratie, en rolt ShowKitchen uit. Poorten: zie `Environment` in de configuratie (Dashboard http://127.0.0.1:8070, API-register http://127.0.0.1:8072, ShowKitchen http://127.0.0.1:8080).
 
 Licentie: [MIT](LICENSE).
