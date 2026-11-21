@@ -58,9 +58,9 @@ Bij elk kader geldt comply or explain: wijk je af, leg dan uit waarom. De produc
 Besluit van Johannes (20 november 2026): de pipeline bestaat uit stappen, met quality gates. Besluit van 20 november (later): Pipeline en Dashboard zijn deelproducten van FCD, voor alle showcases; wat per showcase verschilt staat in de configuratie.
 
 **De configuratie van deze showcase staat in [fcd/fcd-demo.fcd.yaml](fcd/fcd-demo.fcd.yaml)** (één bron, in het FCD-model):
-- `Pipeline`: vastgelegde versie van de Pipeline, trigger (alleen `main`), uitrollen (docker-compose, het hele deelproduct), releasen (tag, GitHub Release, changelog) en de stappen in volgorde;
-- `Step`: de tien stappen;
-- `QualityGate`: code-, bouw-, security-, uitrol- en mensgate, met hun drempels;
+- `Pipeline`: vastgelegde versie van de Pipeline, bron (`local-git`: een lokale git-server, geen push naar remote), trigger (`dashboard-button`: de startknop op het Dashboard; alleen wat op `main` gemerged is), uitrollen (docker-compose, het hele deelproduct), releasen (lokale tag en changelog, geen GitHub Release), de stappen in volgorde, de stappen in de backlog, en de demo (`demo-start`, de klaarstaande branches, opwarmen);
+- `Step`: de tien stappen; per stap het niveau (`level: container` voor statische controle, unittests, contracttest en bouwen: die draaien per container), en voor de demo ingekorte stappen (`shortened`, met hun afwijking); de backlogstappen (grijs op het Dashboard);
+- `QualityGate`: code-, bouw-, security-, uitrol- en mensgate, met hun drempels. De mensgate is de knop op het Dashboard, twee keer: bij de start en vóór het releasen (besluit Johannes, 21 november 2026);
 - `Explanation`: goedgekeurde afwijkingen op een gate (gate, regel, reden, goedkeurder, einddatum);
 - `Dashboard`: vastgelegde versie van het Dashboard;
 - `Environment`: poorten en projectnamen van deze showcase.
@@ -70,6 +70,7 @@ Een drempel of stap wijzigen is een pull request op deze repository, door Johann
 - Valt een gate dicht, dan stopt de pipeline: niet uitrollen, niet releasen.
 - Een noodpatch gaat door dezelfde stappen en gates. Kader: CI/CD – the only way to production, ook bij spoed (explain niet toegestaan).
 - Testdekking (coverage) heeft voor de demo geen drempel.
+- De demo herhalen: `./fcd demo reset` of de knop "Demo opnieuw" (zie [demo-draaiboek.md](demo-draaiboek.md)).
 - Wat niet als configuratie kan, staat als issue in `fcd`.
 
 ## Contract first
@@ -87,3 +88,13 @@ Besluit: alles is open source (Johannes, 20 november 2026). Goedgekeurde afwijki
 | GitHub als plek voor repositories, issues, board, releases en update-pull-requests (Dependabot) | Gratis en de de-facto-standaard | Alles staat in git en de pipeline draait lokaal; elke git-host werkt |
 | Apicurio Registry in het geheugen (EXP-003, tot 2026-12-31; kader "Database: PostgreSQL") | Voor de demo; de contracten staan in git en de Pipeline vult het register opnieuw | Opslag in PostgreSQL (Apicurio ondersteunt dat) |
 | Docker Desktop voor de demo | Gratis voor Johannes | FCD gebruikt alleen gewone `docker`- en `docker compose`-commando's en werkt met elke open source runtime |
+| De pipeline binnen 5 minuten, alleen voor de demo (V8): images opgewarmd (EXP-004), scan uit de cache van de voorbereiding (EXP-005), end-to-end alleen het kernpad (EXP-006), lokaal releasen zonder GitHub Release (EXP-007), alle tot 2026-12-31 | Alle stappen en gates blijven; de demo moet in een gesprek passen | Zonder de demo: de volledige stappen (configuratie, geen code) |
+| Versies van FCD nummeren door (besluit Johannes, 21 november 2026): Pipeline 0.7.0 en Dashboard 0.5.0 in plaats van 0.1.0 | De tags tot Pipeline v0.5.2 en Dashboard v0.3.1 staan al openbaar op GitHub; terugzetten herschrijft de geschiedenis | – |
+
+## Voorgestelde afwijkingen (nog niet goedgekeurd)
+
+| Afwijking | Reden | Issue |
+|---|---|---|
+| Geen inloggen op het Dashboard in mvp0: de naam bij een knop is de goedkeurder uit de configuratie | Alles draait lokaal op 127.0.0.1 | fcd-demo#4 |
+| De lokale tags v0.7.0 (Pipeline) en v0.5.0 (Dashboard) zijn met de hand gezet, niet door de Pipeline | De Pipeline van FCD zelf (showcase `fcd`) heeft nog geen eigen configuratie in `fcd` (D1) | nieuw |
+| Stubs lopen niet door de pipeline van Bestellen; hun image wordt alleen gebouwd als het ontbreekt | V6: stubs zijn geen deelproduct; een eigen lifecycle voor stubs bestaat nog niet | nieuw |
