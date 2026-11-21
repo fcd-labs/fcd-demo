@@ -8,7 +8,7 @@ Vanuit de map `fcd-labs`. Pipeline en Dashboard zijn van FCD; deze showcase gebr
 
 1. `./fcd-pipeline/fcd check`: alles ✓.
 2. `./fcd-pipeline/fcd up`: het Dashboard, het API-register en de Pipeline-agent draaien.
-3. `./fcd-pipeline/fcd demo reset`: de lokale git op `demo-start` (Bestellen 1.0.0 met de fout, de patch klaar als branch `patch/1.0.1`), ShowKitchen 1.0.0 uitgerold, een lege log, en de patch vooraf opgewarmd. De eerste keer op een nieuwe Mac: een paar minuten (images bouwen).
+3. `./fcd-pipeline/fcd demo reset` (of **↺ Demo opnieuw** op het Dashboard): de lokale git op `demo-start` (Bestellen 1.0.0 met de fout, de patch klaar als branch `patch/1.0.1`), een lege log, en de pipeline van 1.0.0, live: groen tot en met uitrollen, de end-to-end test **rood** ("Bar kreeg de bestelling niet"), de uitrolgate dicht. Daarna wordt de patch opgewarmd. Duur ± 1,5 minuut; de eerste keer op een nieuwe Mac langer (images bouwen).
 4. De eerste keer: één generale repetitie (stap 3 t/m 8), zodat de scans in de cache staan. Daarna `fcd demo reset`.
 5. Open:
    - de site: https://fcd-labs.github.io/fcd/verhaal-presentatie/ en https://fcd-labs.github.io/fcd/showcases/demo/
@@ -27,12 +27,13 @@ Vanuit de map `fcd-labs`. Pipeline en Dashboard zijn van FCD; deze showcase gebr
 ## 3. De fout zien (± 2 min)
 
 1. ShowKitchen: kies iets te eten en te drinken, tafelnummer, **Bestelling plaatsen**. Keuken en kassa ✓, **bar ✕ niet gelukt**.
-2. Dashboard, Live: bovenaan het key result **rood: ✖ bar (stub)**, Bestellen 1.0.0. Keuken, bar en kassa zijn stubs: geen deelproduct, ze lopen niet door de pipeline van Bestellen.
+2. Dashboard, Live: **Draait nu: Bestellen 1.0.0** (frontend 1.0.0, backend 1.0.0). Bovenaan het key result **rood: ✖ bar (stub)**. Keuken, bar en kassa zijn stubs: geen deelproduct, ze lopen niet door de pipeline van Bestellen.
+3. De pipeline van 1.0.0: groen tot de end-to-end test, die is rood: de bar kreeg de bestelling niet. De uitrolgate is dicht: 1.0.0 draait, maar is niet gereleased.
 
 ## 4. De patch (± 2 min, terminal)
 
 1. `./fcd-pipeline/fcd demo diff`: de klaarstaande wijziging als pull request: de typfout (`stub-baar` → `stub-bar`), een nieuwe unittest, backend 1.0.1, Bestellen 1.0.1, een regel in de changelog.
-2. `./fcd-pipeline/fcd demo merge`: Johannes merget (lokaal). Er gebeurt nog niets: de Pipeline wacht op de knop.
+2. Johannes merget (lokaal): de knop **⇄ Patch mergen (sk-demo patch/1.0.1)** op het Dashboard, of `./fcd-pipeline/fcd demo merge` in de terminal. De knop wordt daarna weer **↺ Demo opnieuw**. Er gebeurt nog niets: de Pipeline wacht op de startknop.
 
 ## 5. De pipeline (± 3 min, Dashboard)
 
@@ -49,7 +50,7 @@ Generale repetitie: ± 1 minuut tot de mensgate, ± 70 seconden in totaal.
 
 ## 6. Het resultaat (± 2 min)
 
-1. Dashboard: **✔ Gelukt – Bestellen 1.0.1 · uitgerold · gereleased (v1.0.1)**, met de containerversies (frontend 1.0.0, backend 1.0.1).
+1. Dashboard: **✔ Gelukt – Bestellen 1.0.1 · uitgerold · gereleased (v1.0.1)**; **Draait nu: Bestellen 1.0.1** (frontend 1.0.0, backend 1.0.1).
 2. Tab **Changelog**: Bestellen 1.0.1, de regel van de patch.
 3. ShowKitchen herladen, een nieuwe bestelling: de bar ✓.
 4. Dashboard, Live: het key result **groen**.
@@ -69,6 +70,7 @@ Generale repetitie: ± 1 minuut tot de mensgate, ± 70 seconden in totaal.
 | Wat | Doe |
 |---|---|
 | De knop doet niets | `./fcd-pipeline/fcd status`: draait de agent? Anders `./fcd-pipeline/fcd up`. |
+| "Niets nieuws op main" na de startknop | De patch is nog niet gemerged: **Patch mergen** (stap 4). |
 | Een gate valt dicht | Laat het zien: de reden staat eronder. Daarna `fcd demo reset`. |
 | De pipeline is traag | De eerste run na een nieuwe Mac vult de cache; doe vooraf een generale repetitie. |
 | Het Dashboard toont een oud experiment | Kies het nieuwste experiment rechtsboven (`demo-…`). |
