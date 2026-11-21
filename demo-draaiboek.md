@@ -27,7 +27,7 @@ Vanuit de map `fcd-labs`. Pipeline en Dashboard zijn van FCD; deze showcase gebr
 ## 3. De fout zien (± 2 min)
 
 1. ShowKitchen: kies iets te eten en te drinken, tafelnummer, **Bestelling plaatsen**. Keuken en kassa ✓, **bar ✕ niet gelukt**.
-2. Dashboard, Live: **Draait nu: Bestellen 1.0.0** (frontend 1.0.0, backend 1.0.0). Bovenaan het key result **rood: ✖ bar (stub)**. Keuken, bar en kassa zijn stubs: geen deelproduct, ze lopen niet door de pipeline van Bestellen.
+2. Dashboard, Live (alles op één scherm): **ShowKitchen – draait nu: Bestellen 1.0.0** (backend 1.0.0 · frontend 1.0.0), stubs: keuken, bar, kassa 1.0.0. Daaronder het key result **rood: ✖ bar (stub)**. Keuken, bar en kassa zijn stubs: geen deelproduct, ze lopen niet door de pipeline van Bestellen.
 3. De pipeline van 1.0.0: groen tot de end-to-end test, die is rood: de bar kreeg de bestelling niet. De uitrolgate is dicht: 1.0.0 draait, maar is niet gereleased.
 
 ## 4. De patch (± 2 min, terminal)
