@@ -57,7 +57,7 @@ spec:
   # Lokale tag, de tekst uit de changelog; geen GitHub Release in de demo (V9).
   release: {tag: "v{version}", githubRelease: false, notesFrom: CHANGELOG.md}
   # De demo herhalen (V10): ./fcd demo reset zet de lokale git terug naar startTag; branches zijn de klaarstaande wijzigingen.
-  demo: {startTag: demo-start, branches: ["patch/*"]}
+  demo: {startTag: demo-start, branches: ["patch/*"], warm: true}   # warm: de klaarstaande branches vooraf bouwen (EXP-004)
   steps: [static-check, unit-tests, contract-test, build, integration-tests, security-freshness, sbom-licenses, deploy, end-to-end-tests, release]
   # Nog niet gebouwd (grow through doing): grijs op het Dashboard, nooit uitgevoerd. Issues in fcd-demo.
   backlog: [eslint, coverage, consumer-contract-test, dast, performance-tests]
