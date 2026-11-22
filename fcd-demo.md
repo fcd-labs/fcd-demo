@@ -60,7 +60,7 @@ Besluit van Johannes (20 november 2026): de pipeline bestaat uit stappen, met qu
 **De configuratie van deze showcase staat in [fcd/fcd-demo.fcd.yaml](fcd/fcd-demo.fcd.yaml)** (één bron, in het FCD-model):
 - `Pipeline`: vastgelegde versie van de Pipeline, bron (`local-git`: een lokale git-server, geen push naar remote), trigger (`dashboard-button`: de startknop op het Dashboard; alleen wat op `main` gemerged is), uitrollen (docker-compose, het hele deelproduct), releasen (lokale tag en changelog, geen GitHub Release), de stappen in volgorde, de stappen in de backlog, en de demo (`demo-start`, de klaarstaande branches, opwarmen);
 - `Step`: de tien stappen; per stap het niveau (`level: container` voor statische controle, unittests, contracttest en bouwen: die draaien per container), en voor de demo ingekorte stappen (`shortened`, met hun afwijking); de backlogstappen (grijs op het Dashboard);
-- `QualityGate`: code-, bouw-, security-, uitrol- en mensgate, met hun drempels. De mensgate is de knop op het Dashboard, twee keer: bij de start en vóór het releasen (besluit Johannes, 21 november 2026);
+- `QualityGate`: code-, bouw-, security- en uitrolgate en de goedkeuring, met hun drempels. De goedkeuring is de knop op het Dashboard, twee keer: bij de start en vóór het releasen (besluit Johannes, 21 november 2026);
 - `Explanation`: goedgekeurde afwijkingen op een gate (gate, regel, reden, goedkeurder, einddatum);
 - `Dashboard`: vastgelegde versie van het Dashboard;
 - `Environment`: poorten en projectnamen van deze showcase.

@@ -37,7 +37,7 @@ Vanuit de map `fcd-labs`. Pipeline en Dashboard zijn van FCD; deze showcase gebr
 
 ## 5. De pipeline (± 3 min, Dashboard)
 
-1. **▶ Pipeline starten (Johannes)**: de mensgate bij de start; de naam komt in de logregel.
+1. **▶ Pipeline starten (Johannes)**: de goedkeuring bij de start; de naam komt in de logregel.
 2. Live, zonder verversen:
    - per container (frontend, backend) een rij: statische controle, unittests, contracttest, bouwen; daaronder de rij van het deelproduct Bestellen: integratie, security, SBOM, deployen, end-to-end, releasen;
    - de frontend blijft 1.0.0 en slaat zijn stappen over ("ongewijzigd, draait al"): containers hebben een eigen lifecycle; alleen de backend (1.0.1) loopt;
@@ -45,9 +45,9 @@ Vanuit de map `fcd-labs`. Pipeline en Dashboard zijn van FCD; deze showcase gebr
    - de testtellers lopen mee;
    - **grijs**: stappen in de backlog (ESLint, testdekking, consumer-contracttest, DAST, performancetests): de pipeline is bewust niet compleet, grow through doing;
    - **✂**: stappen die voor de demo zijn ingekort, met hun afwijking (EXP-004 t/m EXP-007): alle stappen en gates blijven.
-3. De run stopt bij de mensgate: **⏸ Wacht op Johannes – release bestellen 1.0.1 goedkeuren**. Druk op **✔ Release goedkeuren**.
+3. De run stopt bij de goedkeuring: **⏸ Wacht op Johannes – release bestellen 1.0.1 goedkeuren**. Druk op **✔ Release goedkeuren**.
 
-Generale repetitie: ± 1 minuut tot de mensgate, ± 70 seconden in totaal.
+Generale repetitie: ± 1 minuut tot de goedkeuring, ± 70 seconden in totaal.
 
 ## 6. Het resultaat (± 2 min)
 

@@ -49,7 +49,7 @@ spec:
   calledBy: Pipeline-agent
   # Bron: een lokale git-server (bare repositories in ~/.fcd/git). Tijdens de demo geen push naar remote (V9).
   source: local-git
-  # Mensgate bij de start: de product owner drukt op de knop op het Dashboard (V3). Alleen wat gemerged is.
+  # Goedkeuring bij de start: de product owner drukt op de knop op het Dashboard (V3). Alleen wat gemerged is.
   trigger: dashboard-button
   artifact: container
   deployUnit: SubProduct
@@ -270,7 +270,7 @@ spec:
 ---
 apiVersion: fcd/v0
 kind: QualityGate
-metadata: {name: human, title: Mensgate}
+metadata: {name: human, title: Goedkeuring}
 spec:
   # Twee keer de knop op het Dashboard: bij de start en vóór het releasen (besluit Johannes, 21 november 2026).
   beforeSteps: [static-check, release]
