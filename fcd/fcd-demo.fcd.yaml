@@ -67,7 +67,7 @@ kind: Dashboard
 metadata: {name: dashboard, title: Dashboard}
 spec:
   uses: {subProduct: fcd-dashboard, version: 0.5.0}
-  # Live weergave van de pipeline (besluit Johannes, 21 november 2026). Het FCD-model kent spec.live nog niet (issue in fcd).
+  # Live weergave van de pipeline (besluit sim007, 21 november 2026). Het FCD-model kent spec.live nog niet (issue in fcd).
   # De stappen, gates en hun volgorde komen uit Pipeline, Step en QualityGate hierboven; niet herhalen.
   live:
     subProducts: []                   # welke deelproducten, in deze volgorde; leeg is alle
@@ -254,7 +254,7 @@ spec:
     vulnerabilities: {severities: [CRITICAL, HIGH], onlyWithFix: true, max: 0}
     secrets: {max: 0}
     misconfigurations: {severities: [CRITICAL, HIGH], max: 0}
-    freshness: {maxMajorBehind: 1, undetermined: warn}   # besluit Johannes 21-11-2026: hoogstens één major achter
+    freshness: {maxMajorBehind: 1, undetermined: warn}   # besluit sim007 21-11-2026: hoogstens één major achter
     licenses:
       allowed: [MIT, MIT-0, Apache-2.0, BSD-2-Clause, BSD-3-Clause, ISC, Zlib, MPL-2.0, EPL-1.0, EPL-2.0, LGPL-2.0, LGPL-2.1, LGPL-2.1-only, LGPL-2.1-or-later, LGPL-3.0, LGPL-3.0-only, LGPL-3.0-or-later, Unlicense, CC0-1.0, 0BSD]
       restricted: [GPL-1.0, GPL-2.0, GPL-2.0-only, GPL-2.0-or-later, GPL-2.0-with-classpath-exception, GPL-3.0, GPL-3.0-only, GPL-3.0-or-later]
@@ -276,10 +276,10 @@ apiVersion: fcd/v0
 kind: QualityGate
 metadata: {name: human, title: Goedkeuring}
 spec:
-  # Twee keer de knop op het Dashboard: bij de start en vóór het releasen (besluit Johannes, 21 november 2026).
+  # Twee keer de knop op het Dashboard: bij de start en vóór het releasen (besluit sim007, 21 november 2026).
   beforeSteps: [static-check, release]
   approval: dashboard-button
-  approver: Johannes
+  approver: sim007
   principle: human-approves
 ---
 apiVersion: fcd/v0
@@ -391,7 +391,7 @@ kind: Principle
 metadata: {name: github-actions}
 spec: {statement: "GitHub Actions roept hetzelfde bash-script aan.", label: Continuous Delivery}
 ---
-# Eén kader per quality gate (besluit Johannes, 22 november 2026): wat de gate eist, in woorden.
+# Eén kader per quality gate (besluit sim007, 22 november 2026): wat de gate eist, in woorden.
 # De drempels zelf staan alleen in de QualityGate. De goedkeuring valt onder human-approves.
 apiVersion: fcd/v0
 kind: Principle
@@ -483,7 +483,7 @@ spec:
   gate: security
   rule: versheid frontend
   reason: "Frontend loopt een major-versie achter (Angular 21 -> 22, TypeScript 5.9 -> 7, vitest 4 -> 5, jsdom 28 -> 31). Bijwerken na de demo (fcd-demo issue #1)."
-  approver: Johannes
+  approver: sim007
   approved: 2026-11-20
   until: 2026-12-31
 ---
@@ -497,7 +497,7 @@ spec:
   gate: security
   rule: versheid backend
   reason: "json-schema-validator loopt een major-versie achter (1.5.9 -> 3.0.9); versie 3 vereist Jackson 3. Bijwerken na de demo (fcd-demo issue #17)."
-  approver: Johannes
+  approver: sim007
   approved: 2026-11-20
   until: 2026-12-31
 ---
@@ -508,7 +508,7 @@ spec:
   principle: database
   subject: registry
   reason: "Apicurio Registry houdt de contracten voor de demo in het geheugen (H2), niet in PostgreSQL. De contracten staan in git; na een herstart vult de Pipeline het register opnieuw."
-  approver: Johannes
+  approver: sim007
   approved: 2026-11-20
   until: 2026-12-31
 ---
@@ -522,7 +522,7 @@ spec:
   step: build
   rule: images opgewarmd
   reason: "Alleen voor de demo: de images zijn vooraf opgewarmd (voorbereiding), zodat de pipeline binnen 5 minuten blijft. Er wordt wel gebouwd."
-  approver: Johannes
+  approver: sim007
   approved: 2026-11-21
   until: 2026-12-31
 ---
@@ -535,7 +535,7 @@ spec:
   step: security-freshness
   rule: scan uit cache
   reason: "Alleen voor de demo: de security-, versheids- en licentiescan van dezelfde inhoud (repository of image) komt uit de cache van de voorbereiding. Nieuwe inhoud wordt wel gescand."
-  approver: Johannes
+  approver: sim007
   approved: 2026-11-21
   until: 2026-12-31
 ---
@@ -548,7 +548,7 @@ spec:
   step: end-to-end-tests
   rule: alleen kernpad
   reason: "Alleen voor de demo: end-to-end alleen het kernpad 'bestelling plaatsen' (@kernpad). De volledige scenario's draaien buiten de demo."
-  approver: Johannes
+  approver: sim007
   approved: 2026-11-21
   until: 2026-12-31
 ---
@@ -556,14 +556,14 @@ apiVersion: fcd/v0
 kind: Explanation
 metadata: {name: EXP-007}
 spec:
-  # gitops (besluit Johannes, 22 november 2026): de release gaat wel door de pipeline; wat afwijkt is geen push
+  # gitops (besluit sim007, 22 november 2026): de release gaat wel door de pipeline; wat afwijkt is geen push
   # naar remote en geen GitHub Release. only-way-to-production staat geen explain toe.
   principle: gitops
   subjects: [sk-bestellen]
   step: release
   rule: lokale release
   reason: "Alleen voor de demo: een lokale tag en de changelog, geen GitHub Release; tijdens de demo geen push naar remote (V9)."
-  approver: Johannes
+  approver: sim007
   approved: 2026-11-21
   until: 2026-12-31
 ---
@@ -575,6 +575,6 @@ spec:
   subjects: [sk-bestellen]
   rule: lokale agent
   reason: "Alleen voor de demo: de Pipeline draait lokaal als agent, zonder GitHub Actions, met hetzelfde bash-script (fcd)."
-  approver: Johannes
+  approver: sim007
   approved: 2026-11-22
   until: 2026-12-31
