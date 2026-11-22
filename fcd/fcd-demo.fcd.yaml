@@ -538,3 +538,15 @@ spec:
   approver: Johannes
   approved: 2026-11-21
   until: 2026-12-31
+---
+apiVersion: fcd/v0
+kind: Explanation
+metadata: {name: EXP-008}
+spec:
+  principle: github-actions
+  subjects: [sk-bestellen]
+  rule: lokale agent
+  reason: "Alleen voor de demo: de Pipeline draait lokaal als agent, zonder GitHub Actions, met hetzelfde bash-script (fcd)."
+  approver: Johannes
+  approved: 2026-11-22
+  until: 2026-12-31
