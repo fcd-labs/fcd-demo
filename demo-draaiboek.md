@@ -22,7 +22,7 @@ Vanuit de map `fcd-labs`. Pipeline en Dashboard zijn van FCD; deze showcase gebr
 
 ## 2. De showcase Demo (± 3 min, site)
 
-/showcases/demo/: de intent Bestellen, het deelproduct, de productplaat (wat zit in wat: product, deelproduct, containers, stubs) en de procesplaat.
+/showcases/demo/: de intent Bestellen, het deelproduct, de productplaat (wat zit in wat: product, deelproduct, containers, stubs) en de Full Circle Delivery-plaat.
 
 ## 3. De fout zien (± 2 min)
 
@@ -33,11 +33,11 @@ Vanuit de map `fcd-labs`. Pipeline en Dashboard zijn van FCD; deze showcase gebr
 ## 4. De patch (± 2 min, terminal)
 
 1. `./fcd-pipeline/fcd demo diff`: de klaarstaande wijziging als pull request: de typfout (`stub-baar` → `stub-bar`), een nieuwe unittest, backend 1.0.1, Bestellen 1.0.1, een regel in de changelog.
-2. Johannes merget (lokaal): de knop **⇄ Patch mergen (sk-bestellen patch/1.0.1)** op het Dashboard, of `./fcd-pipeline/fcd demo merge` in de terminal. De knop wordt daarna weer **↺ Demo opnieuw**. Er gebeurt nog niets: de Pipeline wacht op de startknop.
+2. sim007 merget (lokaal): de knop **⇄ Patch mergen (sk-bestellen patch/1.0.1)** op het Dashboard, of `./fcd-pipeline/fcd demo merge` in de terminal. De knop wordt daarna weer **↺ Demo opnieuw**. Er gebeurt nog niets: de Pipeline wacht op de startknop.
 
 ## 5. De pipeline (± 3 min, Dashboard)
 
-1. **▶ Pipeline starten (Johannes)**: de goedkeuring bij de start; de naam komt in de logregel.
+1. **▶ Pipeline starten (sim007)**: de goedkeuring bij de start; de naam komt in de logregel.
 2. Live, zonder verversen:
    - per container (frontend, backend) een rij: statische controle, unittests, contracttest, bouwen; daaronder de rij van het deelproduct Bestellen: integratie, security, SBOM, deployen, end-to-end, releasen;
    - de frontend blijft 1.0.0 en slaat zijn stappen over ("ongewijzigd, draait al"): containers hebben een eigen lifecycle; alleen de backend (1.0.1) loopt;
@@ -45,7 +45,7 @@ Vanuit de map `fcd-labs`. Pipeline en Dashboard zijn van FCD; deze showcase gebr
    - de testtellers lopen mee;
    - **grijs**: stappen in de backlog (ESLint, testdekking, consumer-contracttest, DAST, performancetests): de pipeline is bewust niet compleet, grow through doing;
    - **✂**: stappen die voor de demo zijn ingekort, met hun afwijking (EXP-004 t/m EXP-007): alle stappen en gates blijven.
-3. De run stopt bij de goedkeuring: **⏸ Wacht op Johannes – release bestellen 1.0.1 goedkeuren**. Druk op **✔ Release goedkeuren**.
+3. De run stopt bij de goedkeuring: **⏸ Wacht op sim007 – release bestellen 1.0.1 goedkeuren**. Druk op **✔ Release goedkeuren**.
 
 Generale repetitie: ± 1 minuut tot de goedkeuring, ± 70 seconden in totaal.
 

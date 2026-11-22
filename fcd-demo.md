@@ -25,7 +25,7 @@ Bij elk kader geldt comply or explain: wijk je af, leg dan uit waarom. De produc
 | Foutmeldingen geven geen interne details prijs. | Security | ? | |
 | De frontend stuurt beveiligingsheaders mee. | Security | ? | |
 | build.sh scant afhankelijkheden, images en configuratie op kwetsbaarheden en geheimen. Bij een ernstige bevinding stopt de build. | Security | ? | |
-| ~~GitHub Actions: acties op een vaste versie, minimale rechten.~~ | Security | ? | Vervallen: geen GitHub Actions (besluit Johannes, 20 november 2026) |
+| ~~GitHub Actions: acties op een vaste versie, minimale rechten.~~ | Security | ? | Vervallen: geen GitHub Actions (besluit sim007, 20 november 2026) |
 | Versleuteld verkeer (HTTPS). | Security | ? | mvp0: lokale omgeving, geen HTTPS (voorstel, nog goed te keuren) |
 | Inloggen en autorisatie waar gebruikers zijn. | Security | ? | mvp0: de intent kent geen gebruikersaccounts (voorstel, nog goed te keuren) |
 | Contract first: tussen deelproducten eerst het contract, dan de code. Het schema is onderdeel van het contract. Contracten in OpenAPI. | | ? | |
@@ -43,7 +43,7 @@ Bij elk kader geldt comply or explain: wijk je af, leg dan uit waarom. De produc
 | GitOps: alles staat in git, en de pipeline rolt uit | | J | |
 | CI/CD – the only way to production, ook bij spoed. | | N | |
 | Een bash-script is de enige weg om te bouwen en uit te rollen. | Continuous Delivery | ? | |
-| ~~GitHub Actions roept hetzelfde bash-script aan.~~ | Continuous Delivery | ? | Vervallen: de Pipeline (fcd-pipeline) draait het bash-script lokaal (besluit Johannes, 20 november 2026) |
+| ~~GitHub Actions roept hetzelfde bash-script aan.~~ | Continuous Delivery | ? | Vervallen: de Pipeline (fcd-pipeline) draait het bash-script lokaal (besluit sim007, 20 november 2026) |
 | Test-driven development (TDD). | Testen | ? | |
 | Unittests. | Testen | ? | |
 | Integratietests binnen het deelproduct. | Testen | ? | |
@@ -55,17 +55,17 @@ Bij elk kader geldt comply or explain: wijk je af, leg dan uit waarom. De produc
 
 ## CI-stappen, quality gates en drempels
 
-Besluit van Johannes (20 november 2026): de pipeline bestaat uit stappen, met quality gates. Besluit van 20 november (later): Pipeline en Dashboard zijn deelproducten van FCD, voor alle showcases; wat per showcase verschilt staat in de configuratie.
+Besluit van sim007 (20 november 2026): de pipeline bestaat uit stappen, met quality gates. Besluit van 20 november (later): Pipeline en Dashboard zijn deelproducten van FCD, voor alle showcases; wat per showcase verschilt staat in de configuratie.
 
-**De configuratie van deze showcase staat in [fcd/fcd-demo.fcd.yaml](fcd/fcd-demo.fcd.yaml)** (één bron, in het FCD-model):
+**De configuratie van deze showcase staat in [fcd/fcd-demo.fcd.yaml](fcd/fcd-demo.fcd.yaml)**, in het FCD-model. Het is een kopie: de bron is `fcd` (`fcd/fcd/*.fcd.yaml`, besluit sim007, 22 november 2026).
 - `Pipeline`: vastgelegde versie van de Pipeline, bron (`local-git`: een lokale git-server, geen push naar remote), trigger (`dashboard-button`: de startknop op het Dashboard; alleen wat op `main` gemerged is), uitrollen (docker-compose, het hele deelproduct), releasen (lokale tag en changelog, geen GitHub Release), de stappen in volgorde, de stappen in de backlog, en de demo (`demo-start`, de klaarstaande branches, opwarmen);
 - `Step`: de tien stappen; per stap het niveau (`level: container` voor statische controle, unittests, contracttest en bouwen: die draaien per container), en voor de demo ingekorte stappen (`shortened`, met hun afwijking); de backlogstappen (grijs op het Dashboard);
-- `QualityGate`: code-, bouw-, security- en uitrolgate en de goedkeuring, met hun drempels. De goedkeuring is de knop op het Dashboard, twee keer: bij de start en vóór het releasen (besluit Johannes, 21 november 2026);
-- `Explanation`: goedgekeurde afwijkingen op een gate (gate, regel, reden, goedkeurder, einddatum);
+- `QualityGate`: code-, bouw-, security- en uitrolgate en de Goedkeuring, met hun drempels; elke gate verwijst naar zijn kader (`quality-gate-<naam>`, de Goedkeuring naar `human-approves`). De goedkeuring is de knop op het Dashboard, twee keer: bij de start en vóór het releasen (besluit sim007, 21 november 2026);
+- `Explanation`: goedgekeurde afwijkingen (kader, gate of stap, regel, reden, goedkeurder, einddatum); nooit op een kader met `explainAllowed: false`;
 - `Dashboard`: vastgelegde versie van het Dashboard;
 - `Environment`: poorten en projectnamen van deze showcase.
 
-Een drempel of stap wijzigen is een pull request op deze repository, door Johannes gemerged. De Pipeline volgt de nieuwe configuratie bij de volgende run, zonder codewijziging.
+Een drempel, stap, kader of afwijking wijzigen gaat in `fcd`: een issue in `fcd`, daarna een pull request daar, door sim007 gemerged. Deze repository neemt de bestanden daarna over (een diff laat zien dat ze gelijk zijn). De Pipeline volgt de nieuwe configuratie bij de volgende run, zonder codewijziging.
 
 - Valt een gate dicht, dan stopt de pipeline: niet uitrollen, niet releasen.
 - Een noodpatch gaat door dezelfde stappen en gates. Kader: CI/CD – the only way to production, ook bij spoed (explain niet toegestaan).
@@ -75,21 +75,21 @@ Een drempel of stap wijzigen is een pull request op deze repository, door Johann
 
 ## Contract first
 
-Kader: tussen deelproducten eerst het contract, dan de code; het schema is onderdeel van het contract (besluit Johannes, 20 november 2026). De contracten staan in git met een eigen versie (`kind: Contract` in de configuratie), en in het API-register van de showcase (Apicurio Registry) met de regel BACKWARD. Stap 3 controleert: klopt het contract, is de versie omhoog als het veranderde, en is het niet gebroken (oasdiff en het register).
+Kader: tussen deelproducten eerst het contract, dan de code; het schema is onderdeel van het contract (besluit sim007, 20 november 2026). De contracten staan in git met een eigen versie (`kind: Contract` in de configuratie), en in het API-register van de showcase (Apicurio Registry) met de regel BACKWARD. Stap 3 controleert: klopt het contract, is de versie omhoog als het veranderde, en is het niet gebroken (oasdiff en het register).
 
 **Afwijking (gemeld 20 november 2026):** mvp0 is contract first in de volgorde (het contract van de bestelling kwam vóór de code), maar de code wordt niet tegen het contract zelf gecontroleerd (backend en stubs met handgeschreven regels), het contract van de bestelling veranderde zonder nieuwe versie, en de zenders van de logregel worden niet tegen het schema getest. Herstel: zie de issues in deze repository.
 
 ## Goedgekeurde afwijkingen
 
-Besluit: alles is open source (Johannes, 20 november 2026). Goedgekeurde afwijkingen op de way of working (Johannes, 20 november 2026); afwijkingen op een quality gate staan in de configuratie (`Explanation`):
+Besluit: alles is open source (sim007, 20 november 2026). Goedgekeurde afwijkingen op de way of working (sim007, 20 november 2026); afwijkingen op een quality gate staan in de configuratie (`Explanation`):
 
 | Afwijking | Reden | Exitstrategie |
 |---|---|---|
 | GitHub als plek voor repositories, issues, board, releases en update-pull-requests (Dependabot) | Gratis en de de-facto-standaard | Alles staat in git en de pipeline draait lokaal; elke git-host werkt |
 | Apicurio Registry in het geheugen (EXP-003, tot 2026-12-31; kader "Database: PostgreSQL") | Voor de demo; de contracten staan in git en de Pipeline vult het register opnieuw | Opslag in PostgreSQL (Apicurio ondersteunt dat) |
-| Docker Desktop voor de demo | Gratis voor Johannes | FCD gebruikt alleen gewone `docker`- en `docker compose`-commando's en werkt met elke open source runtime |
+| Docker Desktop voor de demo | Gratis voor sim007 | FCD gebruikt alleen gewone `docker`- en `docker compose`-commando's en werkt met elke open source runtime |
 | De pipeline binnen 5 minuten, alleen voor de demo (V8): images opgewarmd (EXP-004), scan uit de cache van de voorbereiding (EXP-005), end-to-end alleen het kernpad (EXP-006), lokaal releasen zonder GitHub Release (EXP-007), alle tot 2026-12-31 | Alle stappen en gates blijven; de demo moet in een gesprek passen | Zonder de demo: de volledige stappen (configuratie, geen code) |
-| Versies van FCD nummeren door (besluit Johannes, 21 november 2026): Pipeline 0.7.0 en Dashboard 0.5.0 in plaats van 0.1.0 | De tags tot Pipeline v0.5.2 en Dashboard v0.3.1 staan al openbaar op GitHub; terugzetten herschrijft de geschiedenis | – |
+| Versies van FCD nummeren door (besluit sim007, 21 november 2026): Pipeline 0.7.0 en Dashboard 0.5.0 in plaats van 0.1.0 | De tags tot Pipeline v0.5.2 en Dashboard v0.3.1 staan al openbaar op GitHub; terugzetten herschrijft de geschiedenis | – |
 
 ## Voorgestelde afwijkingen (nog niet goedgekeurd)
 

@@ -1,13 +1,13 @@
 # fcd-demo
 
-De showcase Demo van [Full Circle Delivery](https://fcd-labs.github.io/fcd/): de way of working die het product [sk-bestellen](https://github.com/fcd-labs/sk-bestellen) (het deelproduct Bestellen van ShowKitchen) (ShowKitchen) voortbrengt. Deze repository bevat geen code: alleen de way of working, de configuratie en de data van de showcase.
+De showcase Demo van [Full Circle Delivery](https://fcd-labs.github.io/fcd/): de way of working die het product [sk-bestellen](https://github.com/fcd-labs/sk-bestellen) (het deelproduct Bestellen van ShowKitchen) voortbrengt. Deze repository bevat geen code: alleen de way of working, de configuratie en de data van de showcase.
 
 Meer over deze showcase: https://fcd-labs.github.io/fcd/showcases/demo/
 
 | Wat | Waar |
 |---|---|
 | Way of working | [fcd-demo.md](fcd-demo.md) |
-| Configuratie (FCD-model): stappen, gates en drempels, uitrollen, releasen, afwijkingen, omgeving, vastgelegde versies | [fcd/fcd-demo.fcd.yaml](fcd/fcd-demo.fcd.yaml), [fcd/sk-bestellen.fcd.yaml](fcd/sk-bestellen.fcd.yaml) |
+| Configuratie (FCD-model): stappen, gates en drempels, uitrollen, releasen, afwijkingen, omgeving, vastgelegde versies | [fcd/fcd-demo.fcd.yaml](fcd/fcd-demo.fcd.yaml), [fcd/sk-bestellen.fcd.yaml](fcd/sk-bestellen.fcd.yaml): een kopie uit [fcd](https://github.com/fcd-labs/fcd/tree/main/fcd); wijzigen gaat daar |
 | Log en statusrapporten | [log/](log), [reports/](reports) |
 | Draaiboek voor de demo | [demo-draaiboek.md](demo-draaiboek.md) |
 

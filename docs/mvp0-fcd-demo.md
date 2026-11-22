@@ -3,12 +3,12 @@
 **Dit bestand is leidend.** Het is de enige opdracht voor Claude Code voor mvp0 van de showcase Demo. Eerdere opdrachten (zoals `opdracht-showcase-demo.md`) vervallen.
 
 Demo van Full Circle Delivery (FCD) met de showcase Demo, voor iedereen die het FCD-concept wil zien. FCD verkoopt zichzelf: het model, de site en de showcase spreken voor zich.
-Bron: de chat van 19 tot en met 21 november 2026 in het project "Product: Full Circle Delivery". Product owner: Johannes.
+Bron: de chat van 19 tot en met 21 november 2026 in het project "Product: Full Circle Delivery". Product owner: sim007.
 Deze opdracht zegt wat er moet komen en waarom. Het hoe is aan Claude Code.
 
 ---
 
-## 1. Oorspronkelijke vraag van Johannes
+## 1. Oorspronkelijke vraag van sim007
 
 > Ik wil fcd demo-en met de showcase demo, zodat de kijker overzicht en inzicht krijgt in het fcd concept.
 >
@@ -46,7 +46,7 @@ De productplaat op de site: wat zit in wat (product, deelproduct, containers, st
 Een bewuste fout in Bestellen 1.0.0: een bestelling komt niet aan bij de bar, door een typfout in de broncode. In het deelproduct is de fout zichtbaar (rood naar bar) en het key result op het Dashboard is rood. De patch 1.0.1 herstelt de typfout; daarna is alles groen. Zo sluit de cirkel: meten, leren, herstellen.
 
 **V3. Hoe start de pipeline op het Dashboard?**
-Met een knop op het Dashboard die Johannes indrukt, als mensgate. Zijn naam komt in de logregel als "wie triggert". De pull request met de patch is dan al gemerged in de lokale git.
+Met een knop op het Dashboard die sim007 indrukt, als goedkeuring. Zijn naam komt in de logregel als "wie triggert". De pull request met de patch is dan al gemerged in de lokale git.
 
 **V4. Hoe zie je de stappen voor services en deelproduct?**
 Per container (frontend en backend) een eigen rij met de stappen tot en met bouwen en testen. Daaronder één rij voor het deelproduct Bestellen als geheel: integratie, security, deployen, end-to-end, releasen. Zo is zichtbaar dat containers een eigen lifecycle hebben en het deelproduct samen wordt uitgerold.
@@ -64,11 +64,11 @@ Bestellen 1.0.0, met de fout. De patch maakt er 1.0.1 van. Op de site, in de cod
 Alle stappen en gates blijven. Zware stappen worden sneller: de security- en versheidsscan uit een cache van de voorbereiding, end-to-end alleen het pad "bestelling plaatsen", images vooraf opgewarmd. Ingekorte stappen krijgen een explain (alleen voor de demo) en zijn gemarkeerd. Vóór de start van de demo draaien FCD (Pipeline en Dashboard) en ShowKitchen 1.0.0 al.
 
 **V9. Wat betekent "geen push naar remote" voor 1.0.1?**
-Alles blijft lokaal: een lokale git-server op de Mac als bron, een lokale tag v1.0.1, geen GitHub Release. Het Dashboard toont de nieuwe versie. De changelog staat op het Dashboard als eigen tab. Na de demo kan Johannes de run en het statusrapport bewaren, zonder push.
+Alles blijft lokaal: een lokale git-server op de Mac als bron, een lokale tag v1.0.1, geen GitHub Release. Het Dashboard toont de nieuwe versie. De changelog staat op het Dashboard als eigen tab. Na de demo kan sim007 de run en het statusrapport bewaren, zonder push.
 
 **V10. Hoe zet je de demo terug op 1.0.0?**
 Een knop "Demo opnieuw" op het Dashboard, alleen zichtbaar in de demomodus en met een bevestiging. Erachter zit `./fcd demo reset` (ook in de terminal):
-1. de huidige run en het statusrapport bewaren, als Johannes dat wil;
+1. de huidige run en het statusrapport bewaren, als sim007 dat wil;
 2. de lokale git terugzetten naar de tag `demo-start` (Bestellen 1.0.0 met de fout, de patch klaar als branch);
 3. ShowKitchen 1.0.0 opnieuw uitrollen;
 4. een lege log starten, zodat het Dashboard schoon begint.
@@ -86,13 +86,13 @@ Met een korte samenvatting van wat de kijker zag (de cirkel rond: intent, bouwen
 |---|---|---|---|
 | 0 | Voorbereiding: `./fcd demo reset`; FCD (Pipeline, Dashboard) en ShowKitchen 1.0.0 draaien | Mac | vooraf |
 | 1 | Het verhaal: waarom FCD, de cirkel, de praatplaat | site: /verhaal-presentatie/ | 5 min |
-| 2 | De showcase Demo: intent Bestellen, deelproduct, productplaat (wat zit in wat), procesplaat | site: /showcases/demo/ | 3 min |
+| 2 | De showcase Demo: intent Bestellen, deelproduct, productplaat (wat zit in wat), Full Circle Delivery-plaat | site: /showcases/demo/ | 3 min |
 | 3 | De fout zien: een bestelling plaatsen; de bar krijgt niets. Op het Dashboard is het key result rood (stub bar) | ShowKitchen 1.0.0, Dashboard | 2 min |
 | 4 | De patch: de klaarstaande wijziging (typfout in de broncode) als pull request, lokaal gemerged | lokale git | 2 min |
-| 5 | De pipeline: Johannes drukt op de knop (mensgate); live de stappen per container en voor het deelproduct, de gates, de grijze backlogstappen en de ingekorte stappen met explain | Dashboard | 5 min |
+| 5 | De pipeline: sim007 drukt op de knop (goedkeuring); live de stappen per container en voor het deelproduct, de gates, de grijze backlogstappen en de ingekorte stappen met explain | Dashboard | 5 min |
 | 6 | Het resultaat: Bestellen 1.0.1, de changelog-tab, een nieuwe bestelling komt aan bij de bar, het key result is groen | ShowKitchen 1.0.1, Dashboard | 2 min |
 | 7 | Afsluiting: samenvatting, backlog van mvp0, en de vraag: wat vind je van het model? | — | 3 min |
-| 8 | Na de demo: run en statusrapport bewaren als Johannes dat wil; daarna "Demo opnieuw" | Dashboard | na afloop |
+| 8 | Na de demo: run en statusrapport bewaren als sim007 dat wil; daarna "Demo opnieuw" | Dashboard | na afloop |
 
 ---
 
@@ -157,7 +157,7 @@ Een agent op de Mac die de pipeline is, voor elke showcase. Hij leest de configu
 - Testen vóór het mergen gebeurt lokaal met hetzelfde script.
 - Alleen de Pipeline rolt uit; met de hand uitrollen is een afwijking.
 
-**CI-stappen.** De stappen zijn niet compleet; voor de demo zijn ze een mooi voorbeeld. Maak ze niet compleet: wat ontbreekt is backlog (grijs op het Dashboard, en een issue in `fcd-demo`). Stel per stap de uitwerking voor; Johannes kiest.
+**CI-stappen.** De stappen zijn niet compleet; voor de demo zijn ze een mooi voorbeeld. Maak ze niet compleet: wat ontbreekt is backlog (grijs op het Dashboard, en een issue in `fcd-demo`). Stel per stap de uitwerking voor; sim007 kiest.
 
 | # | Stap | Niveau | Wat |
 |---|---|---|---|
@@ -172,7 +172,7 @@ Een agent op de Mac die de pipeline is, voor elke showcase. Hij leest de configu
 | 9 | End-to-end tests | deelproduct | Playwright (in de demo alleen "bestelling plaatsen", met explain) |
 | 10 | Releasen | deelproduct | Lokale tag, changelog (geen GitHub Release in de demo) |
 
-**Quality gates.** Stel per gate de drempel voor; Johannes kiest. Drempels zijn kaders; afwijken alleen met een goedgekeurde afwijking (reden, goedkeurder, einddatum).
+**Quality gates.** Stel per gate de drempel voor; sim007 kiest. Drempels zijn kaders; afwijken alleen met een goedgekeurde afwijking (reden, goedkeurder, einddatum).
 
 | Gate | Na stap | Door als (voorstel) |
 |---|---|---|
@@ -180,7 +180,7 @@ Een agent op de Mac die de pipeline is, voor elke showcase. Hij leest de configu
 | Bouwgate | 4–5 | Images gebouwd, integratietests groen |
 | Securitygate | 6–7 | Geen kritieke of hoge kwetsbaarheden, geen geheimen, libraries vers genoeg, licenties toegestaan |
 | Uitrolgate | 8–9 | Uitrol gelukt, end-to-end groen |
-| Mensgate | start en vóór 10 | Johannes keurt goed (de knop op het Dashboard) |
+| Goedkeuring | start en vóór 10 | sim007 keurt goed (de knop op het Dashboard) |
 
 - Valt een gate dicht, dan stopt de pipeline. Er wordt niet uitgerold of gereleased.
 - **NFR: de pipeline duurt maximaal 5 minuten** (V8). Afwijking, alleen voor de demo: scan uit cache, end-to-end alleen het kernpad, images opgewarmd.
@@ -192,7 +192,7 @@ Eén Dashboard voor alle showcases, per showcase geconfigureerd en met eigen dat
 **Voor de demo toont het alleen de showcase Demo, geen FCD-deelproducten.**
 
 1. **Het key result:** aangekomen bij keuken, bar en kassa, met expliciet "stub"; rood bij 1.0.0, groen bij 1.0.1.
-2. **De startknop** voor de pipeline (mensgate), met de naam van Johannes in de logregel.
+2. **De startknop** voor de pipeline (goedkeuring), met de naam van sim007 in de logregel.
 3. **Live weergave van de pipeline**, zonder verversen (Server-Sent Events of WebSockets; stel voor):
    - per container (frontend, backend) een rij tot en met bouwen en testen; daaronder een rij voor het deelproduct;
    - per stap: wachtend, bezig (met lopende tijd), gelukt, mislukt, overgeslagen;
@@ -221,7 +221,7 @@ De logregel is een contract (contract first) tussen sk-demo, de Pipeline en het 
 | deelproduct | Welk deelproduct, met versie, en welke container als het om een container gaat |
 | actie | Welke stap of gate, en de uitkomst (bezig, gelukt, mislukt, overgeslagen; bij een gate open of dicht, met reden) |
 
-Voor testen daarnaast: aantal tests, geslaagd, mislukt, overgeslagen. Voor de meting van het key result: per bestelling aangekomen bij keuken, bar en kassa. Stel extra velden voor; Johannes kiest.
+Voor testen daarnaast: aantal tests, geslaagd, mislukt, overgeslagen. Voor de meting van het key result: per bestelling aangekomen bij keuken, bar en kassa. Stel extra velden voor; sim007 kiest.
 
 ### 4.8 De demo herhalen
 
@@ -244,7 +244,7 @@ Voor testen daarnaast: aantal tests, geslaagd, mislukt, overgeslagen. Voor de me
 ### 4.11 Alles open source
 
 - Code: MIT, voor alle repositories. Alle libraries, tools en scanners open source; noem per tool de licentie.
-- Geen open source alternatief: leg een afwijking vast en vraag Johannes om goedkeuring.
+- Geen open source alternatief: leg een afwijking vast en vraag sim007 om goedkeuring.
 - **Goedgekeurde afwijkingen** (vastleggen in `fcd-mvp0.md`):
   - **GitHub** als plek voor repositories, issues en board. Reden: gratis en de de-facto-standaard. Exitstrategie: alles staat in git en de pipeline draait lokaal; elke git-host werkt.
   - **Docker Desktop** voor de demo. Reden: gratis voor persoonlijk gebruik en kleine organisaties, en de de-facto-standaard. Exitstrategie: alleen gewone `docker`- en `docker compose`-commando's.
@@ -252,7 +252,7 @@ Voor testen daarnaast: aantal tests, geslaagd, mislukt, overgeslagen. Voor de me
 
 ### 4.12 Het harnas is nog niet compleet
 
-De kaders samen zijn het harnas: de guardrails voor AI. Bij 17 van de 26 kaders is niet bekend of explain is toegestaan, en 18 hebben nog geen label. Ook de CI-stappen zijn niet compleet. Werk binnen wat er is; wat ontbreekt of onduidelijk is: een issue in `fcd-demo`. Johannes beslist.
+De kaders samen zijn het harnas: de guardrails voor AI. Bij 17 van de 26 kaders is niet bekend of explain is toegestaan, en 18 hebben nog geen label. Ook de CI-stappen zijn niet compleet. Werk binnen wat er is; wat ontbreekt of onduidelijk is: een issue in `fcd-demo`. sim007 beslist.
 
 ### 4.13 Vindbaarheid op GitHub
 
@@ -281,7 +281,7 @@ Wat niet af komt: een issue. Issues van mvp0 mogen openblijven.
 
 ### 4.16 Kaders en niet doen
 
-Kaders (comply or explain): wat niet beschreven is, is buiten scope; CI/CD – the only way to production, ook bij spoed; een mens keurt goed (Johannes); bestanden in het Nederlands, code in het Engels; woorden zoals op de site (intent, product, deelproduct, container, stub, quality gate, showcase; niet deelsysteem).
+Kaders (comply or explain): wat niet beschreven is, is buiten scope; CI/CD – the only way to production, ook bij spoed; een mens keurt goed (sim007); bestanden in het Nederlands, code in het Engels; woorden zoals op de site (intent, product, deelproduct, container, stub, quality gate, showcase; niet deelsysteem).
 
 Niet doen:
 - Geen verwijzingen naar bedrijven, collega's, klanten, opdrachten of deelname: niet in de code, niet op het Dashboard, niet in de teksten. FCD verkoopt zichzelf. De product owner als "wie triggert" mag wel.
@@ -291,11 +291,11 @@ Niet doen:
 - Ontbrekende kaders of stappen niet zelf invullen.
 - Geen code uit pull requests van anderen automatisch draaien.
 - Geen gate overslaan.
-- Niets pushen of repositories aanmaken vóór Johannes het plan heeft goedgekeurd.
+- Niets pushen of repositories aanmaken vóór sim007 het plan heeft goedgekeurd.
 
 ### 4.17 Terugmelden
 
-Aan het eind een korte samenvatting die Johannes in de chat plakt, zodat de site klopt:
+Aan het eind een korte samenvatting die sim007 in de chat plakt, zodat de site klopt:
 - de links naar de repositories;
 - per deelproduct en container: naam, versie, technologie, belangrijkste libraries (met of ze open source zijn);
 - de velden van de configuratie, met de declaratieve bestanden van Demo als voorbeeld;
