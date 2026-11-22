@@ -2,7 +2,7 @@
 
 De way of working van de showcase Demo (eerste experiment: mvp0).
 
-Way of working van de showcase Demo, voor Claude Code. De eerste, kleinste way of working van Full Circle Delivery (FCD) die de hele cirkel rond gaat: intentie, proces, product, leren. AI als versneller.
+Way of working van de showcase Demo, voor Claude Code. De eerste, kleinste way of working van Full Circle Delivery (FCD) die de hele cirkel rond gaat: intentie, delivery, product, leren. AI als versneller.
 Hoort bij een intent, zoals `sk-1dp-mvp0.md` in [sk-bestellen](https://github.com/fcd-labs/sk-bestellen).
 
 ## Organisatie
