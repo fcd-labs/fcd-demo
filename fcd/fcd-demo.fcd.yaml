@@ -71,7 +71,7 @@ spec:
   # De stappen, gates en hun volgorde komen uit Pipeline, Step en QualityGate hierboven; niet herhalen.
   live:
     subProducts: []                   # welke deelproducten, in deze volgorde; leeg is alle
-    environments: [lokaal, werkplek]  # welke runs (werkplek: vóór een push)
+    environments: [lokaal]            # welke runs: lokaal (na een merge); werkplek (vóór een push) niet, zodat een hook-run nooit in de demo verschijnt
     layout: stacked                   # stacked (onder elkaar) of side-by-side
     keepFinishedSeconds: 600          # zo lang blijft een afgelopen run groot staan
     presentation:

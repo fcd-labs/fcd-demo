@@ -7,7 +7,7 @@ Meer over deze showcase: https://fcd-labs.github.io/fcd/showcases/demo/
 | Wat | Waar |
 |---|---|
 | Way of working | [fcd-demo.md](fcd-demo.md) |
-| Configuratie (FCD-model): stappen, gates en drempels, uitrollen, releasen, afwijkingen, omgeving, vastgelegde versies | [fcd/fcd-demo.fcd.yaml](fcd/fcd-demo.fcd.yaml), [fcd/sk-demo.fcd.yaml](fcd/sk-demo.fcd.yaml) |
+| Configuratie (FCD-model): stappen, gates en drempels, uitrollen, releasen, afwijkingen, omgeving, vastgelegde versies | [fcd/fcd-demo.fcd.yaml](fcd/fcd-demo.fcd.yaml), [fcd/sk-bestellen.fcd.yaml](fcd/sk-bestellen.fcd.yaml) |
 | Log en statusrapporten | [log/](log), [reports/](reports) |
 | Draaiboek voor de demo | [demo-draaiboek.md](demo-draaiboek.md) |
 
