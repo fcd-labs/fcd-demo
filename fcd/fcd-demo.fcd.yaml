@@ -226,6 +226,7 @@ apiVersion: fcd/v0
 kind: QualityGate
 metadata: {name: code, title: Codegate}
 spec:
+  principle: quality-gate-code
   afterSteps: [static-check, unit-tests, contract-test]
   thresholds:
     lintErrors: {max: 0}
@@ -238,6 +239,7 @@ apiVersion: fcd/v0
 kind: QualityGate
 metadata: {name: build, title: Bouwgate}
 spec:
+  principle: quality-gate-build
   afterSteps: [build, integration-tests]
   thresholds:
     integrationTestsFailed: {max: 0}
@@ -246,6 +248,7 @@ apiVersion: fcd/v0
 kind: QualityGate
 metadata: {name: security, title: Securitygate}
 spec:
+  principle: quality-gate-security
   afterSteps: [security-freshness, sbom-licenses]
   thresholds:
     vulnerabilities: {severities: [CRITICAL, HIGH], onlyWithFix: true, max: 0}
@@ -263,6 +266,7 @@ apiVersion: fcd/v0
 kind: QualityGate
 metadata: {name: deploy, title: Uitrolgate}
 spec:
+  principle: quality-gate-deploy
   afterSteps: [deploy, end-to-end-tests]
   thresholds:
     readySeconds: {max: 60}
