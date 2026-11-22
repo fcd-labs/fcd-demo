@@ -33,7 +33,7 @@ Vanuit de map `fcd-labs`. Pipeline en Dashboard zijn van FCD; deze showcase gebr
 ## 4. De patch (± 2 min, terminal)
 
 1. `./fcd-pipeline/fcd demo diff`: de klaarstaande wijziging als pull request: de typfout (`stub-baar` → `stub-bar`), een nieuwe unittest, backend 1.0.1, Bestellen 1.0.1, een regel in de changelog.
-2. Johannes merget (lokaal): de knop **⇄ Patch mergen (sk-demo patch/1.0.1)** op het Dashboard, of `./fcd-pipeline/fcd demo merge` in de terminal. De knop wordt daarna weer **↺ Demo opnieuw**. Er gebeurt nog niets: de Pipeline wacht op de startknop.
+2. Johannes merget (lokaal): de knop **⇄ Patch mergen (sk-bestellen patch/1.0.1)** op het Dashboard, of `./fcd-pipeline/fcd demo merge` in de terminal. De knop wordt daarna weer **↺ Demo opnieuw**. Er gebeurt nog niets: de Pipeline wacht op de startknop.
 
 ## 5. De pipeline (± 3 min, Dashboard)
 

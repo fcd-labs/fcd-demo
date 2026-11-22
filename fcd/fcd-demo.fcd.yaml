@@ -91,7 +91,7 @@ apiVersion: fcd/v0
 kind: Contract
 metadata: {name: order, title: De bestelling}
 spec:
-  repository: sk-demo
+  repository: sk-bestellen
   file: contracts/order.openapi.yaml
   type: OPENAPI
   between: {from: bestellen, to: [stub-keuken, stub-bar, stub-kassa]}
@@ -102,7 +102,7 @@ apiVersion: fcd/v0
 kind: Contract
 metadata: {name: bestellen-api, title: Frontend en backend van Bestellen}
 spec:
-  repository: sk-demo
+  repository: sk-bestellen
   file: bestellen/contracts/bestellen-api.openapi.yaml
   type: OPENAPI
   between: {from: bestellen-frontend, to: [bestellen-backend]}
@@ -453,7 +453,7 @@ metadata: {name: EXP-001}
 spec:
   principle: quality-gate-security
   # fcd-dashboard: D1 (tijdelijk), tot de configuratie van FCD zelf in fcd staat.
-  subjects: [sk-demo, fcd-dashboard]
+  subjects: [sk-bestellen, fcd-dashboard]
   gate: security
   rule: versheid frontend
   reason: "Frontend loopt een major-versie achter (Angular 21 -> 22, TypeScript 5.9 -> 7, vitest 4 -> 5, jsdom 28 -> 31). Bijwerken na de demo (fcd-demo issue #1)."
@@ -467,7 +467,7 @@ metadata: {name: EXP-002}
 spec:
   principle: quality-gate-security
   # fcd-dashboard: D1 (tijdelijk), tot de configuratie van FCD zelf in fcd staat.
-  subjects: [sk-demo, fcd-dashboard]
+  subjects: [sk-bestellen, fcd-dashboard]
   gate: security
   rule: versheid backend
   reason: "json-schema-validator loopt een major-versie achter (1.5.9 -> 3.0.9); versie 3 vereist Jackson 3. Bijwerken na de demo (fcd-demo issue #17)."
@@ -492,7 +492,7 @@ kind: Explanation
 metadata: {name: EXP-004}
 spec:
   principle: automate-everything
-  subjects: [sk-demo]
+  subjects: [sk-bestellen]
   step: build
   rule: images opgewarmd
   reason: "Alleen voor de demo: de images zijn vooraf opgewarmd (voorbereiding), zodat de pipeline binnen 5 minuten blijft. Er wordt wel gebouwd."
@@ -505,7 +505,7 @@ kind: Explanation
 metadata: {name: EXP-005}
 spec:
   principle: quality-gate-security
-  subjects: [sk-demo]
+  subjects: [sk-bestellen]
   step: security-freshness
   rule: scan uit cache
   reason: "Alleen voor de demo: de security-, versheids- en licentiescan van dezelfde inhoud (repository of image) komt uit de cache van de voorbereiding. Nieuwe inhoud wordt wel gescand."
@@ -518,7 +518,7 @@ kind: Explanation
 metadata: {name: EXP-006}
 spec:
   principle: end-to-end-tests
-  subjects: [sk-demo]
+  subjects: [sk-bestellen]
   step: end-to-end-tests
   rule: alleen kernpad
   reason: "Alleen voor de demo: end-to-end alleen het kernpad 'bestelling plaatsen' (@kernpad). De volledige scenario's draaien buiten de demo."
@@ -531,7 +531,7 @@ kind: Explanation
 metadata: {name: EXP-007}
 spec:
   principle: only-way-to-production
-  subjects: [sk-demo]
+  subjects: [sk-bestellen]
   step: release
   rule: lokale release
   reason: "Alleen voor de demo: een lokale tag en de changelog, geen GitHub Release; tijdens de demo geen push naar remote (V9)."

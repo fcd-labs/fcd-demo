@@ -3,6 +3,7 @@
 # Objecten en relaties volgen fcd-objecten.md. De veldnamen zijn een voorstel.
 # Wat niet in de bronnen staat, staat hier niet. De plaat toont dat als gat.
 # Kopie uit fcd/fcd/sk-demo.fcd.yaml (20 november 2026), aangevuld met de repository van het deelproduct.
+# Besluit Johannes (22 november 2026): één repository per deelproduct, voor alle showcases: sk-bestellen (met de stubs).
 ---
 apiVersion: fcd/v0
 kind: Product
@@ -30,7 +31,7 @@ metadata:
 spec:
   product: showkitchen
   owner: claude-code
-  repository: sk-demo
+  repository: sk-bestellen   # het deelproduct Bestellen, voor alle showcases (was sk-demo)
 ---
 apiVersion: fcd/v0
 kind: Container
