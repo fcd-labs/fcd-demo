@@ -7,7 +7,7 @@ Vanuit de map `fcd-labs`. Pipeline en Dashboard zijn van FCD; deze showcase gebr
 ## 0. Voorbereiding (vooraf, ± 5 minuten)
 
 1. `./fcd-pipeline/fcd check`: alles ✓.
-2. `./fcd-pipeline/fcd up`: het Dashboard, het API-register en de Pipeline-agent draaien.
+2. `./fcd-pipeline/fcd up`: het Dashboard, het API-register, de Pipeline-agent en ShowKitchen (de laatst uitgerolde versie: Bestellen en de stubs) draaien. Ook na een herstart van de Mac of Docker: de containers starten niet vanzelf. Controleer: ShowKitchen op http://127.0.0.1:8080, `./fcd-pipeline/fcd status`.
 3. `./fcd-pipeline/fcd demo reset` (of **↺ Demo opnieuw** op het Dashboard): de lokale git op `demo-start` (Bestellen 1.0.0 met de fout, de patch klaar als branch `patch/1.0.1`), een lege log, en de pipeline van 1.0.0, live: groen tot en met uitrollen, de end-to-end test **rood** ("Bar kreeg de bestelling niet"), de uitrolgate dicht. Daarna wordt de patch opgewarmd. Duur ± 1,5 minuut; de eerste keer op een nieuwe Mac langer (images bouwen).
 4. De eerste keer: één generale repetitie (stap 3 t/m 8), zodat de scans in de cache staan. Daarna `fcd demo reset`.
 5. Open:
@@ -72,6 +72,7 @@ Generale repetitie: ± 1 minuut tot de goedkeuring, ± 70 seconden in totaal.
 | Wat | Doe |
 |---|---|
 | De knop doet niets | `./fcd-pipeline/fcd status`: draait de agent? Anders `./fcd-pipeline/fcd up`. |
+| ShowKitchen of het Dashboard opent niet (na een herstart van de Mac of Docker) | `./fcd-pipeline/fcd up`: start alles weer, ook ShowKitchen. Nog nooit uitgerold? `./fcd-pipeline/fcd demo reset`. |
 | "Niets nieuws op main" na de startknop | De patch is nog niet gemerged: **Patch mergen** (stap 4). |
 | Een gate valt dicht | Laat het zien: de reden staat eronder. Daarna `fcd demo reset`. |
 | De pipeline is traag | De eerste run na een nieuwe Mac vult de cache; doe vooraf een generale repetitie. |
