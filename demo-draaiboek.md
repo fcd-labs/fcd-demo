@@ -80,14 +80,21 @@ De demo van mvp0 ligt vast met de tag **`fcd-demo-mvp0`** op `fcd-demo`, `sk-bes
 
 ```bash
 mkdir fcd-labs && cd fcd-labs
+git clone https://github.com/fcd-labs/fcd.git
 for r in fcd-demo sk-bestellen fcd-pipeline fcd-dashboard; do
-  git clone --branch fcd-demo-mvp0 https://github.com/fcd-labs/$r.git
+  git clone https://github.com/fcd-labs/$r.git && git -C $r checkout fcd-demo-mvp0
 done
 git -C sk-bestellen fetch origin patch/1.0.1:patch/1.0.1
 ./fcd-pipeline/fcd check
+./fcd-pipeline/fcd demo seed
+mkdir -p ~/.fcd/demo/state
 ./fcd-pipeline/fcd up
 ./fcd-pipeline/fcd demo reset
 ```
+
+- `fcd` (het model en de site) is nodig voor `fcd check`; het blijft op `main`.
+- `fcd demo seed` vóór `fcd up`: de vastgelegde versies van Pipeline en Dashboard komen uit de lokale git-server, en die vult `seed`.
+- `mkdir -p ~/.fcd/demo/state`: Pipeline 0.7.0 maakt die map op een nieuw device niet zelf aan (wordt opgelost in een volgende versie).
 
 Daarna één generale repetitie (stap 3 t/m 8), en `fcd demo reset`. De eerste keer duurt dat langer: de images worden gebouwd (zie Randvoorwaarden).
 
