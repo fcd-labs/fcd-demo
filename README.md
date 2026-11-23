@@ -15,7 +15,7 @@ De code komt van FCD: [fcd-pipeline](https://github.com/fcd-labs/fcd-pipeline) e
 
 ## Zelf draaien
 
-Alles draait lokaal. Nodig: git, bash en een container-runtime met `docker` en `docker compose`.
+Alles draait lokaal. **Randvoorwaarde: Docker** (een container-runtime met `docker` en `docker compose`, zoals Docker Desktop), plus git en bash. De eerste keer bouwt de Pipeline alle images; dat kost tijd (enkele minuten). Hoe je de demo van mvp0 op een ander device draait: [demo-draaiboek.md](demo-draaiboek.md#op-een-ander-device).
 Clone de repositories naast elkaar in één map (`fcd`, `fcd-demo`, `fcd-pipeline`, `fcd-dashboard`, `sk-bestellen`). Dan, vanuit `fcd-demo`:
 
 ```bash

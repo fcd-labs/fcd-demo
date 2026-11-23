@@ -4,6 +4,13 @@ De journey uit [docs/mvp0-fcd-demo.md](docs/mvp0-fcd-demo.md), ongeveer 22 minut
 
 Vanuit de map `fcd-labs`. Pipeline en Dashboard zijn van FCD; deze showcase gebruikt de versies die in [fcd/fcd-demo.fcd.yaml](fcd/fcd-demo.fcd.yaml) zijn vastgelegd.
 
+## Randvoorwaarden
+
+- **Docker** (een container-runtime met `docker` en `docker compose`, zoals Docker Desktop), gestart. Zonder Docker draait er niets: Dashboard, Pipeline-stappen en ShowKitchen draaien in containers.
+- git en bash.
+- De vier repositories (`fcd-demo`, `sk-bestellen`, `fcd-pipeline`, `fcd-dashboard`) naast elkaar in één map `fcd-labs`, op de tag `fcd-demo-mvp0` (zie [Op een ander device](#op-een-ander-device)).
+- **Tijd:** de eerste keer bouwt de Pipeline alle images en vult hij de cache van de scans. Reken op ± 10 minuten plus één generale repetitie. Daarna duurt de voorbereiding ± 5 minuten.
+
 ## 0. Voorbereiding (vooraf, ± 5 minuten)
 
 1. `./fcd-pipeline/fcd check`: alles ✓.
@@ -67,10 +74,28 @@ Generale repetitie: ± 1 minuut tot de goedkeuring, ± 70 seconden in totaal.
 
 **↺ Demo opnieuw** op het Dashboard (met bevestiging; vink aan om eerst de run en het statusrapport te bewaren), of `./fcd-pipeline/fcd demo reset --save`. Het statusrapport (als leesbare pagina `.html` en als Markdown `.md`) en de log komen in `reports/` en `log/` van deze repository (lokaal; niet pushen zonder besluit). Op het Dashboard staat het rapport opgemaakt in het tabblad Statusrapport.
 
+## Op een ander device
+
+De demo van mvp0 ligt vast met de tag **`fcd-demo-mvp0`** op `fcd-demo`, `sk-bestellen`, `fcd-pipeline` en `fcd-dashboard`. Zo draait hij volgens dit draaiboek, ook als `main` verder gaat.
+
+```bash
+mkdir fcd-labs && cd fcd-labs
+for r in fcd-demo sk-bestellen fcd-pipeline fcd-dashboard; do
+  git clone --branch fcd-demo-mvp0 https://github.com/fcd-labs/$r.git
+done
+git -C sk-bestellen fetch origin patch/1.0.1:patch/1.0.1
+./fcd-pipeline/fcd check
+./fcd-pipeline/fcd up
+./fcd-pipeline/fcd demo reset
+```
+
+Daarna één generale repetitie (stap 3 t/m 8), en `fcd demo reset`. De eerste keer duurt dat langer: de images worden gebouwd (zie Randvoorwaarden).
+
 ## Als iets misgaat
 
 | Wat | Doe |
 |---|---|
+| Docker draait niet (`fcd check` meldt het) | Start Docker Desktop en wacht tot het klaar is; dan `./fcd-pipeline/fcd up`. |
 | De knop doet niets | `./fcd-pipeline/fcd status`: draait de agent? Anders `./fcd-pipeline/fcd up`. |
 | ShowKitchen of het Dashboard opent niet (na een herstart van de Mac of Docker) | `./fcd-pipeline/fcd up`: start alles weer, ook ShowKitchen. Nog nooit uitgerold? `./fcd-pipeline/fcd demo reset`. |
 | "Niets nieuws op main" na de startknop | De patch is nog niet gemerged: **Patch mergen** (stap 4). |
