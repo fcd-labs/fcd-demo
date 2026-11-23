@@ -40,7 +40,7 @@ Vanuit de map `fcd-labs`. Pipeline en Dashboard zijn van FCD; deze showcase gebr
 ## 4. De patch (± 2 min, terminal)
 
 1. `./fcd-pipeline/fcd demo diff`: de klaarstaande wijziging als pull request: de typfout (`stub-baar` → `stub-bar`), een nieuwe unittest, backend 1.0.1, Bestellen 1.0.1, een regel in de changelog.
-2. sim007 merget (lokaal): de knop **⇄ Patch mergen (sk-bestellen patch/1.0.1)** op het Dashboard, of `./fcd-pipeline/fcd demo merge` in de terminal. De knop wordt daarna weer **↺ Demo opnieuw**. Er gebeurt nog niets: de Pipeline wacht op de startknop.
+2. sim007 merget (lokaal): **Patch mergen** in het menu **Bediening** op het Dashboard, of `./fcd-pipeline/fcd demo merge` in de terminal. Daarna verdwijnt Patch mergen uit het menu. Er gebeurt nog niets: de Pipeline wacht op de startknop.
 
 ## 5. De pipeline (± 3 min, Dashboard)
 
@@ -72,7 +72,7 @@ Generale repetitie: ± 1 minuut tot de goedkeuring, ± 70 seconden in totaal.
 
 ## 8. Na de demo
 
-**↺ Demo opnieuw** op het Dashboard (met bevestiging; vink aan om eerst de run en het statusrapport te bewaren), of `./fcd-pipeline/fcd demo reset --save`. Het statusrapport (als leesbare pagina `.html` en als Markdown `.md`) en de log komen in `reports/` en `log/` van deze repository (lokaal; niet pushen zonder besluit). Op het Dashboard staat het rapport opgemaakt in het tabblad Statusrapport.
+**Demo opnieuw** in het menu **Bediening** op het Dashboard (met bevestiging; vink aan om eerst de run en het statusrapport te bewaren), of `./fcd-pipeline/fcd demo reset --save`. Het statusrapport (als leesbare pagina `.html` en als Markdown `.md`) en de log komen in `reports/` en `log/` van deze repository (lokaal; niet pushen zonder besluit). Op het Dashboard staat het rapport opgemaakt in het tabblad Statusrapport.
 
 ## Op een ander device
 
@@ -95,6 +95,7 @@ Daarna één generale repetitie (stap 3 t/m 8), en `fcd demo reset`. De eerste k
 
 | Wat | Doe |
 |---|---|
+| Terug naar de start, wat er ook gebeurt | **Demo opnieuw** (menu Bediening) werkt altijd, in elke fase: ook tijdens een run of terwijl de Goedkeuring wacht. De Pipeline stopt de run ("afgebroken: Demo opnieuw") en zet de demo terug (± 1 minuut). |
 | Docker draait niet (`fcd check` meldt het) | Start Docker Desktop en wacht tot het klaar is; dan `./fcd-pipeline/fcd up`. |
 | De knop doet niets | `./fcd-pipeline/fcd status`: draait de agent? Anders `./fcd-pipeline/fcd up`. |
 | ShowKitchen of het Dashboard opent niet (na een herstart van de Mac of Docker) | `./fcd-pipeline/fcd up`: start alles weer, ook ShowKitchen. Nog nooit uitgerold? `./fcd-pipeline/fcd demo reset`. |
