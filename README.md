@@ -1,6 +1,6 @@
 # fcd-demo
 
-De showcase Demo van [Full Circle Delivery](https://fcd-labs.github.io/fcd/): de way of working die het product [sk-bestellen](https://github.com/fcd-labs/sk-bestellen) (het deelproduct Bestellen van ShowKitchen) voortbrengt. Deze repository bevat geen code: alleen de way of working, de configuratie en de data van de showcase.
+De showcase Demo van [Full Circle Delivery](https://fcd-labs.github.io/fcd/): de way of working die het product [sk-bestellen](https://github.com/fcd-labs/sk-bestellen) (het deelproduct Bestellen van ShowKitchen) voortbrengt. Deze repository bevat geen code: alleen de way of working, de configuratie en de data van de showcase, en het Playwright-script van het filmpje van de demo.
 
 Meer over deze showcase: https://fcd-labs.github.io/fcd/showcases/demo/
 
@@ -10,6 +10,7 @@ Meer over deze showcase: https://fcd-labs.github.io/fcd/showcases/demo/
 | Configuratie (FCD-model): stappen, gates en drempels, uitrollen, releasen, afwijkingen, omgeving, vastgelegde versies | [fcd/fcd-demo.fcd.yaml](fcd/fcd-demo.fcd.yaml), [fcd/sk-bestellen.fcd.yaml](fcd/sk-bestellen.fcd.yaml): een kopie uit [fcd](https://github.com/fcd-labs/fcd/tree/main/fcd); wijzigen gaat daar |
 | Log en statusrapporten | [log/](log), [reports/](reports) |
 | Draaiboek voor de demo | [demo-draaiboek.md](demo-draaiboek.md) |
+| Filmpje van de demo (Playwright-script) | [film/](film) |
 
 De code komt van FCD: [fcd-pipeline](https://github.com/fcd-labs/fcd-pipeline) en [fcd-dashboard](https://github.com/fcd-labs/fcd-dashboard), in de versies die hier zijn vastgelegd. Het product: [sk-bestellen](https://github.com/fcd-labs/sk-bestellen) (het deelproduct Bestellen van ShowKitchen).
 

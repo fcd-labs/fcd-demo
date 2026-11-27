@@ -1,0 +1,12 @@
+{
+  "name": "fcd-demo-film",
+  "private": true,
+  "description": "Het filmpje van de demo van de showcase Demo, volgens demo-draaiboek.md (stap 3 t/m 6), als Playwright-script",
+  "license": "MIT",
+  "scripts": {
+    "film": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.65.1"
+  }
+}
